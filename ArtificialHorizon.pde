@@ -1,9 +1,9 @@
 Instrument attInd;
 
 void setup() {
-    size(500, 500);
+    size(1600, 900);
 
-    attInd = new Instrument(250, 250, "img/rim.png");
+    attInd = new Instrument(1450, 750, 300, 5);
 }
 
 void draw() {
