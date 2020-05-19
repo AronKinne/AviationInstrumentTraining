@@ -1,10 +1,10 @@
 Aircraft ac;
 
 void setup() {
-    size(500, 500, P2D);
+    size(900, 700, P2D);
 
     ac = new Aircraft(200);
-    ac.createPFD(0, 0, 500, 10);
+    ac.createPFD(50, 50, 900, 700, 10);
 }
 
 void draw() {

@@ -1,35 +1,33 @@
 class AttitudeIndicator extends Indicator {
 
-    float size; // x, y is center; size is width and height
-    color colSky, colGround, colReference; // colors of sky, ground and reference marker
-    PGraphics background; // background graphics with sky, ground and scala; generated once in generateBackground
+    // x, y is center
+    color colSky, colGround, colReference;   // colors of sky, ground and reference marker
 
-    float degInPx; // 1 deg = <scale> px
+    float degInPx;   // 1 deg = <scale> px
     float pitch, pitchVel;
     float roll, rollVel;
     final float maxPitchVel = 1;
     final float maxRollVel = 3;
     boolean mouseActive = false;
 
-    private float bgW, bgH; // width and height for background graphics
-    private float scale; // necessary because other values are optimized for size = 500
+    private float bgW, bgH;   // width and height for background graphics
+    private float scale;   // necessary because other values are optimized for degInPx = 10
     
-    AttitudeIndicator(float x, float y, float size, float degInPx) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.w = size;
-        this.h = size;
+    AttitudeIndicator(float x, float y, float w, float h, float degInPx) {
+        super(x, y, w, h);
         this.degInPx = degInPx;
 
         colSky = color(135, 206, 250);
         colGround = color(160, 82, 45);
         colReference = color(255, 255, 0);
         
-        bgW = size * 1.5;
-        bgH = (90 * degInPx + size * .75) * 2;
-        scale = size / 500;
+        float diag = sqrt(w * w + h * h);
+        bgW = diag + 10;
+        bgH = (90 * degInPx + diag * .5 + 5) * 2;
+        scale = degInPx / 10;
         
+        mask = createGraphics((int)bgW, (int)bgH);
+
         generateBackground(bgW, bgH);
     }
 
@@ -39,6 +37,9 @@ class AttitudeIndicator extends Indicator {
         translate(x, y);
         rotate(radians(-roll));
         translate(0, pitch * degInPx);
+
+        updateMask();
+        background.mask(mask);
         image(background, -bgW * .5, -bgH * .5);
         
         popMatrix();
@@ -47,15 +48,15 @@ class AttitudeIndicator extends Indicator {
         noFill();
         stroke(0);
         strokeWeight(1);
-        rect(x - size * .5, y - size * .5, size, size);
+        rect(x - w * .5, y - h * .5, w, h);
 
         println(pitch, roll);
     }
 
     void processMouseInput() {
         if(mouseActive) {
-            pitchVel = constrain(map(mouseY, y - size * .5, y + size * .5, -maxPitchVel, maxPitchVel) * cos(radians(roll)), -maxPitchVel, maxPitchVel);
-            rollVel = constrain(map(mouseX, x - size * .5, x + size * .5, -maxRollVel, maxRollVel), -maxRollVel, maxRollVel);
+            pitchVel = constrain(map(mouseY, y - h * .5, y + h * .5, -maxPitchVel, maxPitchVel) * cos(radians(roll)), -maxPitchVel, maxPitchVel);
+            rollVel = constrain(map(mouseX, x - w * .5, x + w * .5, -maxRollVel, maxRollVel), -maxRollVel, maxRollVel);
         }
 
         pitch += pitchVel;
@@ -69,12 +70,12 @@ class AttitudeIndicator extends Indicator {
     }
 
     void mouseReleased() {
-        if((mouseX < x + size * .5 && mouseX > x - size * .5 && mouseY > y - size * .5 && mouseY < y + size * .5) || mouseActive) {
+        if((mouseX < x + w * .5 && mouseX > x - w * .5 && mouseY > y - h * .5 && mouseY < y + h * .5) || mouseActive) {
             mouseActive = !mouseActive;
         }
     }
 
-    private void generateBackground(float w, float h) {
+    void generateBackground(float w, float h) {
         float textSize = 20 * scale;
         float strokeWeight0 = 5 * scale;
         float strokeWeightLine = 3 * scale;
@@ -117,6 +118,25 @@ class AttitudeIndicator extends Indicator {
         }
 
         background.endDraw();
+    }
+
+    void updateMask() {
+        mask.beginDraw();
+        mask.background(0, 0, 0);
+
+        mask.noStroke();
+        mask.fill(0, 0, 255);
+        mask.pushMatrix();
+
+        mask.translate(bgW * .5, -pitch * degInPx + bgH * .5);
+        mask.rotate(radians(roll));
+        mask.translate(-w * .5, -h * .5);
+        
+
+        mask.rect(0, 0, w, h);
+
+        mask.popMatrix();
+        mask.endDraw();
     }
 
     void drawReference() {

@@ -16,10 +16,10 @@ class Aircraft {
         if(pfd != null) pfd.processMouseInput();
     }
 
-    void createPFD(float x, float y, float size, float scale) {
-        pfd = new FlightDisplay(x, y, size);
+    void createPFD(float x, float y, float w, float h, float scale) {
+        pfd = new FlightDisplay(x, y, w, h);
 
-        pfd.addIndicator(new AttitudeIndicator(x + size * .5, y + size * .5, size, scale));
+        pfd.setADI(scale);
     }
 
     void mouseReleased() {

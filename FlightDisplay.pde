@@ -1,15 +1,17 @@
 class FlightDisplay {
 
     ArrayList<Indicator> indicators;
+    AttitudeIndicator adi;   // Attitude Director Indicator
 
-    float x, y, size;   /// x and y is top left corner
+    float x, y, w, h;   // x and y is top left corner
 
-    FlightDisplay(float x, float y, float size) {
-        indicators = new ArrayList<Indicator>();
-
+    FlightDisplay(float x, float y, float w, float h) {
         this.x = x;
         this.y = y;
-        this.size = size;
+        this.w = w;
+        this.h = h;
+
+        indicators = new ArrayList<Indicator>();
     }
 
     void draw() {
@@ -17,7 +19,12 @@ class FlightDisplay {
     }
 
     void processMouseInput() {
-        for(Indicator i : indicators) i.processMouseInput();
+        if(adi != null) adi.processMouseInput();
+    }
+
+    void setADI(float scale) {
+        adi = new AttitudeIndicator(x + w * .5, y + h * .5, w, h, scale);
+        if(!addIndicator(adi)) println("ERROR: could not add ADI to indicators");
     }
 
     boolean addIndicator(Indicator i) {
@@ -27,7 +34,7 @@ class FlightDisplay {
     }
 
     void mouseReleased() {
-        for(Indicator i : indicators) i.mouseReleased();
+        if(adi != null) adi.mouseReleased();
     }
 
 }
