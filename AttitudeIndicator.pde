@@ -1,6 +1,6 @@
-class Instrument {
+class AttitudeIndicator extends Indicator {
 
-    float x, y, size; // x, y is center; size is width and height
+    float size; // x, y is center; size is width and height
     color colSky, colGround, colReference; // colors of sky, ground and reference marker
     PGraphics background; // background graphics with sky, ground and scala; generated once in generateBackground
 
@@ -8,16 +8,18 @@ class Instrument {
     float pitch, pitchVel;
     float roll, rollVel;
     final float maxPitchVel = 1;
-    final float maxRollVel = 2;
+    final float maxRollVel = 3;
     boolean mouseActive = false;
 
     private float bgW, bgH; // width and height for background graphics
     private float scale; // necessary because other values are optimized for size = 500
     
-    Instrument(float x, float y, float size, float degInPx) {
+    AttitudeIndicator(float x, float y, float size, float degInPx) {
         this.x = x;
         this.y = y;
         this.size = size;
+        this.w = size;
+        this.h = size;
         this.degInPx = degInPx;
 
         colSky = color(135, 206, 250);
