@@ -116,16 +116,15 @@ class AttitudeIndicator extends Indicator {
 
     void updateMask() {
         mask.beginDraw();
-        mask.background(0, 0, 0);
+        mask.background(0);
 
         mask.noStroke();
-        mask.fill(0, 0, 255);
+        mask.fill(255);
         mask.pushMatrix();
 
         mask.translate(bgW * .5, -ac.pitch * degInPx + bgH * .5);
         mask.rotate(radians(ac.roll));
         mask.translate(-w * .5, -h * .5);
-        
 
         mask.rect(0, 0, w, h);
 

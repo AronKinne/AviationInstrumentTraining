@@ -34,8 +34,9 @@ class Aircraft {
             vfe = jsonSpeeds.getFloat("vfe");
             vno = jsonSpeeds.getFloat("vno");
             vne = jsonSpeeds.getFloat("vne");
+            ias = (vno + vfe) * .5;
 
-            println(maxPitchVel, maxRollVel, vs0, vs, vfe, vno, vne);
+            //println(maxPitchVel, maxRollVel, vs0, vs, vfe, vno, vne);
         } catch (Exception e) {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. App will terminate now!");
             exit();
@@ -46,6 +47,7 @@ class Aircraft {
         if(pfd != null) pfd.draw();
         
         //println(pitch, roll);
+        println(ias);
     }
 
     void processMouseInput() {
@@ -56,7 +58,7 @@ class Aircraft {
         pfd = new FlightDisplay(this, x, y, w, h);
 
         pfd.setADI(scale);
-        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 50, h - 100, scale));
+        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale));
     }
 
     void mouseReleased() {

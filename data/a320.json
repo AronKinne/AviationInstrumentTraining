@@ -1,0 +1,15 @@
+{
+    "name": "Airbus A320",
+    "axes": {
+        "maxPitchVel": 1,
+        "maxRollVel": 3
+    },
+    "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:airbus_a320#v-speeds_and_ranges",
+    "speeds": {
+        "vs0": 121,
+        "vs": 179,
+        "vfe": 200,
+        "vno": 250,
+        "vne": 350
+    }
+}
