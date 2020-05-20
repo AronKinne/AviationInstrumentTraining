@@ -1,11 +1,13 @@
 class FlightDisplay {
 
+    Aircraft ac;
     ArrayList<Indicator> indicators;
     AttitudeIndicator adi;   // Attitude Director Indicator
 
     float x, y, w, h;   // x and y is top left corner
 
-    FlightDisplay(float x, float y, float w, float h) {
+    FlightDisplay(Aircraft ac, float x, float y, float w, float h) {
+        this.ac = ac;
         this.x = x;
         this.y = y;
         this.w = w;
@@ -23,7 +25,7 @@ class FlightDisplay {
     }
 
     void setADI(float scale) {
-        adi = new AttitudeIndicator(x + w * .5, y + h * .5, w, h, scale);
+        adi = new AttitudeIndicator(ac, x + w * .5, y + h * .5, w, h, scale);
         if(!addIndicator(adi)) println("ERROR: could not add ADI to indicators");
     }
 

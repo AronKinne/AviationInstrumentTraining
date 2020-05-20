@@ -1,0 +1,15 @@
+{
+    "name": "Cessna 172",
+    "axes": {
+        "maxPitchVel": 1,
+        "maxRollVel": 3
+    },
+    "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:cessna_172_sp",
+    "speeds": {
+        "vs0": 40,
+        "vs": 48,
+        "vfe": 85,
+        "vno": 129,
+        "vne": 163
+    }
+}

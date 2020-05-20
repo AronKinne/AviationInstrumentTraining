@@ -1,10 +1,12 @@
 abstract class Indicator {
 
+    Aircraft ac;
     float x, y, w, h;
 
     PGraphics background, mask;
 
-    Indicator(float x, float y, float w, float h) {
+    Indicator(Aircraft ac, float x, float y, float w, float h) {
+        this.ac = ac;
         this.x = x;
         this.y = y;
         this.w = w;
