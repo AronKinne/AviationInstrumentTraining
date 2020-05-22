@@ -46,8 +46,7 @@ class Aircraft {
     void drawInstruments() {
         if(pfd != null) pfd.draw();
         
-        //println(pitch, roll);
-        println(ias);
+        println(pitch, roll);
     }
 
     void processMouseInput() {
@@ -58,7 +57,7 @@ class Aircraft {
         pfd = new FlightDisplay(this, x, y, w, h);
 
         pfd.setADI(scale);
-        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale));
+        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
     }
 
     void mouseReleased() {

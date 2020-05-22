@@ -6,7 +6,6 @@ class AttitudeIndicator extends Indicator {
     float degInPx;   // 1 deg = <degInPx> px
     boolean mouseActive = false;
 
-    private float bgW, bgH;   // width and height for background graphics
     private float scale;   // necessary because other values are optimized for degInPx = 10
     
     AttitudeIndicator(Aircraft ac, float x, float y, float w, float h, float degInPx) {
@@ -24,7 +23,7 @@ class AttitudeIndicator extends Indicator {
         
         mask = createGraphics((int)bgW, (int)bgH);
 
-        generateBackground(bgW, bgH);
+        generateBackground();
     }
 
     void draw() {
@@ -34,7 +33,7 @@ class AttitudeIndicator extends Indicator {
         rotate(radians(-ac.roll));
         translate(0, ac.pitch * degInPx);
 
-        updateMask();
+        generateMask();
         background.mask(mask);
         image(background, -bgW * .5, -bgH * .5);
         
@@ -69,7 +68,7 @@ class AttitudeIndicator extends Indicator {
         }
     }
 
-    void generateBackground(float w, float h) {
+    void generateBackground() {
         float textSize = 20 * scale;
         float strokeWeight0 = 5 * scale;
         float strokeWeightLine = 3 * scale;
@@ -78,20 +77,20 @@ class AttitudeIndicator extends Indicator {
         float w5 = 100 * scale;
         float w25 = 50 * scale;
 
-        float cx = w * .5;
-        float cy = h * .5;
+        float cx = bgW * .5;
+        float cy = bgH * .5;
 
-        background = createGraphics((int)w, (int)h);
+        background = createGraphics((int)bgW, (int)bgH);
         background.beginDraw();
 
         background.background(colSky);
         background.noStroke();
         background.fill(colGround);
-        background.rect(0, cy, w, cy);
+        background.rect(0, cy, bgW, cy);
 
         background.stroke(255);
         background.strokeWeight(strokeWeight0);
-        background.line(0, cy, w, cy);
+        background.line(0, cy, bgW, cy);
 
         background.strokeWeight(strokeWeightLine);
         background.fill(255);
@@ -106,15 +105,15 @@ class AttitudeIndicator extends Indicator {
             background.line(cx - w25 * .5, cy - i * 10 * degInPx + 7.5 * degInPx * sign(i), cx + w25 * .5, cy - i * 10 * degInPx + 7.5 * degInPx * sign(i));
 
             background.textAlign(RIGHT, CENTER);
-            background.text(abs(i) * 10, w * .5 - w10 * .5 - textSize * .5, cy - i * 10 * degInPx - textSize * .1);
+            background.text(abs(i) * 10, bgW * .5 - w10 * .5 - textSize * .5, cy - i * 10 * degInPx - textSize * .1);
             background.textAlign(LEFT, CENTER);
-            background.text(abs(i) * 10, w * .5 + w10 * .5 + textSize * .5, cy - i * 10 * degInPx - textSize * .1);
+            background.text(abs(i) * 10, bgW * .5 + w10 * .5 + textSize * .5, cy - i * 10 * degInPx - textSize * .1);
         }
 
         background.endDraw();
     }
 
-    void updateMask() {
+    void generateMask() {
         mask.beginDraw();
         mask.background(0);
 

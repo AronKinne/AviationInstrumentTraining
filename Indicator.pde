@@ -2,6 +2,7 @@ abstract class Indicator {
 
     Aircraft ac;
     float x, y, w, h;
+    float bgW, bgH;
 
     PGraphics background, mask;
 
@@ -11,12 +12,15 @@ abstract class Indicator {
         this.y = y;
         this.w = w;
         this.h = h;
+
+        bgW = w;
+        bgH = h;
     }
 
     abstract void draw();
 
-    abstract void generateBackground(float bgW, float bgH);
+    abstract void generateBackground();
 
-    abstract void updateMask();
+    abstract void generateMask();
 
 }
