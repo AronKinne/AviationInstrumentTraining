@@ -26,7 +26,7 @@ class AirspeedIndicator extends Indicator {
     }
 
     void draw() {
-        float bgY = y - bgH + h * 1 + (ac.ias - ac.vs0) * ktInPx;
+        float bgY = y - bgH + h + (ac.ias - ac.vs0) * ktInPx;
 
         generateMask();
         background.mask(mask);
@@ -103,6 +103,7 @@ class AirspeedIndicator extends Indicator {
 
         mask.noStroke();
         mask.fill(255, 200);
+        // draw: y - bgH + h + (ac.ias - ac.vs0) * ktInPx
         mask.rect(0, bgH - h - (ac.ias - ac.vs0) * ktInPx, w, h);
 
         mask.endDraw();

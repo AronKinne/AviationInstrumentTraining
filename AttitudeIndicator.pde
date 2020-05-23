@@ -1,5 +1,7 @@
 class AttitudeIndicator extends Indicator {
 
+    boolean isFlat = true;
+
     // x, y is center
     color colSky, colGround, colReference;   // colors of sky, ground and reference marker
 
@@ -86,11 +88,13 @@ class AttitudeIndicator extends Indicator {
         background.background(colSky);
         background.noStroke();
         background.fill(colGround);
-        background.rect(0, cy, bgW, cy);
+        if(isFlat) background.rect(0, cy, bgW, cy);
 
         background.stroke(255);
         background.strokeWeight(strokeWeight0);
-        background.line(0, cy, bgW, cy);
+        if(isFlat) background.line(0, cy, bgW, cy);
+
+        if(!isFlat) background.ellipse(bgW * .5, bgH, bgH, bgH);
 
         background.strokeWeight(strokeWeightLine);
         background.fill(255);

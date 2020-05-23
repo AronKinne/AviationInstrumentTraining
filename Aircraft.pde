@@ -8,12 +8,15 @@ class Aircraft {
     float roll, rollVel, maxRollVel;
 
     // Speeds
-    float ias;   // Indicated Airspeed
+    float ias;   // indicated airspeed
     float vs0;   // stall speed in landing configuration    scala begins, white arc begins
     float vs;    // stall speed *vs1*                       green arc begins
     float vfe;   // maximum flaps extended speed            white arc ends
     float vno;   // normal operating speed limit            green arc ends, yellow arc begins
     float vne;   // never-exceed speed                      yellow arc ends, red line
+
+    // Performance
+    float alt;   // altitude
 
     Aircraft(String jsonPath) {
         try {
@@ -41,6 +44,8 @@ class Aircraft {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. App will terminate now!");
             exit();
         }
+
+        alt = 9000;
     }
 
     void drawInstruments() {
@@ -58,6 +63,7 @@ class Aircraft {
 
         pfd.setADI(scale);
         pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
+        pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 100, h - 100, scale * .06));
     }
 
     void mouseReleased() {
