@@ -7,7 +7,7 @@ class Aircraft {
     float pitch, pitchVel, maxPitchVel;
     float roll, rollVel, maxRollVel;
 
-    // Speeds
+    // Speeds in kt
     float ias;   // indicated airspeed
     float vs0;   // stall speed in landing configuration    scala begins, white arc begins
     float vs;    // stall speed *vs1*                       green arc begins
@@ -16,7 +16,7 @@ class Aircraft {
     float vne;   // never-exceed speed                      yellow arc ends, red line
 
     // Performance
-    float alt;   // altitude
+    float alt;   // altitude in ft
 
     Aircraft(String jsonPath) {
         try {
@@ -63,7 +63,7 @@ class Aircraft {
 
         pfd.setADI(scale);
         pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
-        pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 100, h - 100, scale * .06));
+        pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 110, h - 100, scale * .06));
     }
 
     void mouseReleased() {

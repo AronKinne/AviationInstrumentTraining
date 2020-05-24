@@ -12,9 +12,9 @@ void keyHandler() {
 
     // altitude
     if(pressedKeys.contains(LEFT)) {
-        ac.alt -= 10;
+        ac.alt = max(ac.alt - 10, 0);
     } else if(pressedKeys.contains(RIGHT)) {
-        ac.alt += 10;
+        ac.alt = max(ac.alt + 10, 0);
     }
 }
 

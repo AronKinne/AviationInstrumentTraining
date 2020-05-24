@@ -18,7 +18,7 @@ class AirspeedIndicator extends Indicator {
 
         bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h;
         
-        asp = new AirspeedPointer(this, y + h * .5 - textSize * 1.1, textSize * 2.5);
+        asp = new AirspeedPointer(this, y + h * .5 - textSize * 1.25, textSize * 2.5);
 
         mask = createGraphics((int)bgW, (int)bgH);
 
