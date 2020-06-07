@@ -6,8 +6,7 @@ class AirspeedIndicator extends Indicator {
     final float ktAbvVne = 10;   // amount of kts above the aircrafts never-exceed speed
 
     final float maxScala = ac.vne + ktAbvVne;
-    final float textSize = 25;
-    final float arcW = 10;
+    float textSize, arcW;
 
     AirspeedPointer asp;
 
@@ -15,7 +14,9 @@ class AirspeedIndicator extends Indicator {
         super(ac, x, y, w, h);
 
         this.ktInPx = ktInPx;
-
+        
+        textSize = w * .25;
+        arcW = w * .1;
         bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h;
         
         asp = new AirspeedPointer(this, y + h * .5 - textSize * 1.25, textSize * 2.5);
@@ -50,10 +51,10 @@ class AirspeedIndicator extends Indicator {
         float greenLower = map(ac.vs, ac.vs0, maxScala, bgH - h * .5, h * .5);
         float whiteUpper = map(ac.vfe, ac.vs0, maxScala, bgH - h * .5, h * .5);
 
-        float whiteArcW = 5;
+        float whiteArcW = arcW * .5;
         float bigLineStep = 10;
-        float wBigLine = 15;
-        float wSmallLine = 10;
+        float wBigLine = arcW * 1.5;
+        float wSmallLine = arcW;
         float wRedLine = 3;
 
         background = createGraphics((int)bgW, (int)bgH);

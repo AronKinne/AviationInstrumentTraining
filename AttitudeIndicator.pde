@@ -57,7 +57,7 @@ class AttitudeIndicator extends Indicator {
     void processMouseInput() {
         if(mouseActive) {
             ac.pitchVel = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxPitchVel, ac.maxPitchVel) * cos(radians(ac.roll)), -ac.maxPitchVel, ac.maxPitchVel);
-            ac.rollVel = constrain(map(mouseX, pivotX - w * .5, x + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
+            ac.rollVel = constrain(map(mouseX, pivotX - w * .5, pivotX + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
         }
 
         ac.pitch += ac.pitchVel;

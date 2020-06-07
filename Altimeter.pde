@@ -4,9 +4,7 @@ class Altimeter extends Indicator {
 
     float nextThousand;
 
-    final float textSize = 20;
-    final float wBigLine = 14;
-    final float wSmallLine = 7;
+    float textSize, wSmallLine, wBigLine;
 
     AltimeterPointer altmp;
 
@@ -15,6 +13,9 @@ class Altimeter extends Indicator {
 
         this.ftInPx = ftInPx;
 
+        textSize = w * .17;
+        wSmallLine = w * .08;
+        wBigLine = wSmallLine * 2;
         bgH = h * 3;
 
         altmp = new AltimeterPointer(this, y + h * .5 - textSize * 2.8, textSize * 2.8);
@@ -148,7 +149,7 @@ class Altimeter extends Indicator {
         }
 
         void generateShape(boolean forMask) {
-            final float wRightPart = textSize * 1.5;
+            final float wLeftPart = textSize * 1.8;
 
             shape = createShape();
             shape.beginShape();
@@ -164,12 +165,12 @@ class Altimeter extends Indicator {
             shape.vertex(wSmallLine, h * .5);
             shape.vertex(wBigLine, h * .5 - wSmallLine);
             shape.vertex(wBigLine, h / 6);
-            shape.vertex(w - wRightPart, h / 6);
-            shape.vertex(w - wRightPart, 0);
+            shape.vertex(wBigLine + wLeftPart, h / 6);
+            shape.vertex(wBigLine + wLeftPart, 0);
             shape.vertex(w, 0);
             shape.vertex(w, h);
-            shape.vertex(w - wRightPart, h);
-            shape.vertex(w - wRightPart, h * 5/6);
+            shape.vertex(wBigLine + wLeftPart, h);
+            shape.vertex(wBigLine + wLeftPart, h * 5/6);
             shape.vertex(wBigLine, h * 5/6);
             shape.vertex(wBigLine, h * .5 + wSmallLine);
 
