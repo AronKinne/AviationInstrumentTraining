@@ -7,7 +7,7 @@
     "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:airbus_a320#v-speeds_and_ranges",
     "speeds": {
         "vs0": 121,
-        "vs": 179,
+        "vs1": 179,
         "vfe": 200,
         "vno": 250,
         "vne": 350

@@ -49,7 +49,7 @@ class Altimeter extends Indicator {
         float bigLines = h / ftInPx / bigLineStep * 2;
 
         background.beginDraw();
-        background.background(51);
+        background.background(71);
 
         background.stroke(255);
         background.strokeWeight(1);
@@ -119,8 +119,8 @@ class Altimeter extends Indicator {
             final int diff = (int)(ac.alt % acc);
             int roundAlt = (int)ac.alt - diff;
             if(diff >= acc * .5) roundAlt += acc;
-            final int sucNum = (int)((roundAlt + acc) % 100);
-            final int preNum = (int)max(((roundAlt - acc) % 100), 0);
+            final int sucNum = (int)abs((roundAlt + acc) % 100);
+            final int preNum = (int)abs((roundAlt - acc) % 100);
             final float digW = textSize * 1.9/3;
 
             int len = String.valueOf(nf(roundAlt, 2)).length();

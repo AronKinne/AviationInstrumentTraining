@@ -10,13 +10,14 @@ class Aircraft {
     // Speeds in kt
     float ias;   // indicated airspeed
     float vs0;   // stall speed in landing configuration    scala begins, white arc begins
-    float vs;    // stall speed *vs1*                       green arc begins
+    float vs1;    // stall speed *vs1*                       green arc begins
     float vfe;   // maximum flaps extended speed            white arc ends
     float vno;   // normal operating speed limit            green arc ends, yellow arc begins
     float vne;   // never-exceed speed                      yellow arc ends, red line
 
     // Performance
     float alt;   // altitude in ft
+    float vs;    // vertical speed in ft/min
 
     Aircraft(String jsonPath) {
         try {
@@ -33,7 +34,7 @@ class Aircraft {
 
             JSONObject jsonSpeeds = jsonAC.getJSONObject("speeds");
             vs0 = jsonSpeeds.getFloat("vs0");
-            vs = jsonSpeeds.getFloat("vs");
+            vs1 = jsonSpeeds.getFloat("vs1");
             vfe = jsonSpeeds.getFloat("vfe");
             vno = jsonSpeeds.getFloat("vno");
             vne = jsonSpeeds.getFloat("vne");
@@ -45,11 +46,16 @@ class Aircraft {
             exit();
         }
 
-        alt = 9000;
+        alt = 1000;
     }
 
     void drawInstruments() {
         if(pfd != null) pfd.draw();
+
+        vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
+        alt += vs / (frameRate * frameRate);
+
+        // 60 f/s => 1f / 1/60s
         
         println(pitch, roll);
     }
@@ -62,8 +68,9 @@ class Aircraft {
         pfd = new FlightDisplay(this, x, y, w, h);
 
         pfd.setADI(scale);
-        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
-        pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 110, h - 100, scale * .06));
+        pfd.addIndicator(new AirspeedIndicator(this, x + 150, y + 50, 100, 400, scale * .6));
+        pfd.addIndicator(new Altimeter(this, x + w - 300, y + 50, 110, 400, scale * .06));
+        pfd.addIndicator(new VerticalSpeedIndicator(this, x + w - 190, y + 60, 40, 380, scale * .06));
     }
 
     void mouseReleased() {

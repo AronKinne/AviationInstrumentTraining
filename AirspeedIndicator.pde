@@ -46,7 +46,7 @@ class AirspeedIndicator extends Indicator {
 
         float redLine = map(ac.vne, ac.vs0, maxScala, bgH - h * .5, h * .5);
         float yellowLower = map(ac.vno, ac.vs0, maxScala, bgH - h * .5, h * .5);
-        float greenLower = map(ac.vs, ac.vs0, maxScala, bgH - h * .5, h * .5);
+        float greenLower = map(ac.vs1, ac.vs0, maxScala, bgH - h * .5, h * .5);
         float whiteUpper = map(ac.vfe, ac.vs0, maxScala, bgH - h * .5, h * .5);
 
         float whiteArcW = 5;
@@ -58,7 +58,7 @@ class AirspeedIndicator extends Indicator {
         background = createGraphics((int)bgW, (int)bgH);
 
         background.beginDraw();
-        background.background(51);
+        background.background(71);
         background.noStroke();
 
         // yellow arc

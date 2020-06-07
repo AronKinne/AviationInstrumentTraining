@@ -9,13 +9,6 @@ void keyHandler() {
     } else if(pressedKeys.contains(DOWN)) {
         ac.ias = max(ac.ias - 1, ac.vs0);
     }
-
-    // altitude
-    if(pressedKeys.contains(LEFT)) {
-        ac.alt = max(ac.alt - 10, 0);
-    } else if(pressedKeys.contains(RIGHT)) {
-        ac.alt = max(ac.alt + 10, 0);
-    }
 }
 
 void keyReleased() {
