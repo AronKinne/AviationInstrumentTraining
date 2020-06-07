@@ -4,10 +4,10 @@
 Aircraft ac;
 
 void setup() {
-    size(1600, 900, P2D);
+    size(1200, 800, P2D);
 
     ac = new Aircraft("data/aircraft/a320.json");
-    ac.createPFD(200, 100, 1200, 700, 10);
+    ac.createPFD(200, 50, "data/pfdlayout/g1000.json");
 }
 
 void draw() {

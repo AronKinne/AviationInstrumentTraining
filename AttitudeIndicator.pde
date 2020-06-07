@@ -11,12 +11,12 @@ class AttitudeIndicator extends Indicator {
 
     private float scale;   // necessary because other values are optimized for degInPx = 10
     
-    AttitudeIndicator(Aircraft ac, float x, float y, float w, float h, float offX, float offY, float degInPx) {
+    AttitudeIndicator(Aircraft ac, float x, float y, float w, float h, float pivotX, float pivotY, float degInPx) {
         super(ac, x, y, w, h);
         this.degInPx = degInPx;
 
-        pivotX = x + offX;
-        pivotY = y + offY;
+        this.pivotX = pivotX;
+        this.pivotY = pivotY;
 
         colSky = color(135, 206, 250);
         colGround = color(160, 82, 45);
