@@ -24,8 +24,8 @@ class FlightDisplay {
         if(adi != null) adi.processMouseInput();
     }
 
-    void setADI(float scale) {
-        adi = new AttitudeIndicator(ac, x + w * .5, y + h * .5, w, h, scale);
+    void setADI(float offX, float offY, float scale) {
+        adi = new AttitudeIndicator(ac, x + w * .5, y + h * .5, w, h, offX, offY, scale);
         if(!addIndicator(adi)) println("ERROR: could not add ADI to indicators");
     }
 

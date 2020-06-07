@@ -61,7 +61,7 @@ class Aircraft {
     void createPFD(float x, float y, float w, float h, float scale) {
         pfd = new FlightDisplay(this, x, y, w, h);
 
-        pfd.setADI(scale);
+        pfd.setADI(0, -100, scale);
         pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
         pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 110, h - 100, scale * .06));
     }

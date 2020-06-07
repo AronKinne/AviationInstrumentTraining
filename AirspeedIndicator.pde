@@ -33,6 +33,7 @@ class AirspeedIndicator extends Indicator {
         image(background, x, bgY);
 
         stroke(255);
+        strokeWeight(1);
         noFill();
         rect(x, y, w, h);
         
