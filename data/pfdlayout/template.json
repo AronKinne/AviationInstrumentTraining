@@ -1,0 +1,29 @@
+{
+    "name": "Template",
+    "_ruler": "https://www.rapidtables.com/web/tools/pixel-ruler.html",
+    "_img": "link to image used with ruler",
+    "layout": {
+        "width": 0,
+        "height": 0,
+        "adi": {
+            "pivotX": 0,
+            "pivotY": 0,
+            "degInPx": 0 
+        },
+        "asi": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "ktInPx": 0,
+            "pointerY": 0
+        },
+        "altm": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "pointerY": 0
+        }
+    }
+}

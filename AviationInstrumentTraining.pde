@@ -6,7 +6,7 @@ Aircraft ac;
 void setup() {
     size(1600, 900, P2D);
 
-    ac = new Aircraft("data/a320.json");
+    ac = new Aircraft("data/aircraft/a320.json");
     ac.createPFD(200, 100, 1200, 700, 10);
 }
 
