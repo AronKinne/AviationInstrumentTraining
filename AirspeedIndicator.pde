@@ -8,21 +8,23 @@ class AirspeedIndicator extends Indicator {
     final float maxScala = ac.vne + ktAbvVne;
     float textSize, arcW;
 
+    float center;   // center is y value of center of pointer
     AirspeedPointer asp;
 
-    AirspeedIndicator(Aircraft ac, float x, float y, float w, float h, float ktInPx) {
+    AirspeedIndicator(Aircraft ac, float x, float y, float w, float h, float center, float ktInPx) {
         super(ac, x, y, w, h);
 
         this.ktInPx = ktInPx;
         
         textSize = w * .25;
         arcW = w * .1;
-        bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h;
         
-        asp = new AirspeedPointer(this, y + h * .5 - textSize * 1.25, textSize * 2.5);
+        this.center = center;
+        asp = new AirspeedPointer(this, y - textSize * 1.25 + center, textSize * 2.5);
+        
+        bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h * 2;
 
         mask = createGraphics((int)bgW, (int)bgH);
-
         generateBackground();
     }
 
@@ -46,10 +48,10 @@ class AirspeedIndicator extends Indicator {
         color colYellow = color(255, 255, 0);
         color colGreen = color(0, 150, 0);
 
-        float redLine = map(ac.vne, ac.vs0, maxScala, bgH - h * .5, h * .5);
-        float yellowLower = map(ac.vno, ac.vs0, maxScala, bgH - h * .5, h * .5);
-        float greenLower = map(ac.vs, ac.vs0, maxScala, bgH - h * .5, h * .5);
-        float whiteUpper = map(ac.vfe, ac.vs0, maxScala, bgH - h * .5, h * .5);
+        float redLine = map(ac.vne, ac.vs0, maxScala, bgH - h, h) + center;
+        float yellowLower = map(ac.vno, ac.vs0, maxScala, bgH - h, h) + center;
+        float greenLower = map(ac.vs, ac.vs0, maxScala, bgH - h, h) + center;
+        float whiteUpper = map(ac.vfe, ac.vs0, maxScala, bgH - h, h) + center;
 
         float whiteArcW = arcW * .5;
         float bigLineStep = 10;
@@ -73,7 +75,7 @@ class AirspeedIndicator extends Indicator {
 
         // white arc
         background.fill(255);
-        background.rect(bgW - arcW, whiteUpper, whiteArcW, bgH - h * .5 - whiteUpper);
+        background.rect(bgW - arcW, whiteUpper, whiteArcW, bgH - h - whiteUpper + center);
 
         // lines
         float offset = ac.vs0 % bigLineStep;
@@ -83,12 +85,12 @@ class AirspeedIndicator extends Indicator {
         background.textSize(textSize);
         background.textAlign(RIGHT, CENTER);
         background.strokeWeight(1);
-        for(float y = bgH + offset * ktInPx - h * .5; y >= h * .5; y -= bigLineStep * ktInPx) {
+        for(float y = bgH + offset * ktInPx - h + center; y >= h + center; y -= bigLineStep * ktInPx) {
             background.line(bgW - wBigLine, y, bgW, y);
             background.text((int)speed, bgW - arcW - textSize * .5, y - textSize * .1);
             speed += bigLineStep;
         }
-        for(float y = bgH + (offset - bigLineStep + bigLineStep * .5) * ktInPx - h * .5; y > h * .5; y -= bigLineStep * ktInPx)
+        for(float y = bgH + (offset - bigLineStep + bigLineStep * .5) * ktInPx - h + center; y > h + center; y -= bigLineStep * ktInPx)
             background.line(bgW - wSmallLine, y, bgW, y);
 
         // red line

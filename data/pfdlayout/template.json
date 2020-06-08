@@ -15,16 +15,16 @@
             "y": 0,
             "width": 0,
             "height": 0,
-            "ktInPx": 0,
-            "pointerY": 0
+            "pointerY": 0,
+            "ktInPx": 0
         },
         "altm": {
             "x": 0,
             "y": 0,
             "width": 0,
             "height": 0,
-            "ftInPx": 0,
-            "pointerY": 0
+            "pointerY": 0,
+            "ftInPx": 0
         }
     }
 }

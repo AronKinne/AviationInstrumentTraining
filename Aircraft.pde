@@ -87,11 +87,11 @@ class Aircraft {
 
             JSONObject jsonASI = jsonLayout.getJSONObject("asi");
             pfd.addIndicator(new AirspeedIndicator(this, x + jsonASI.getFloat("x"), y + jsonASI.getFloat("y"),
-                jsonASI.getFloat("width"), jsonASI.getFloat("height"), jsonASI.getFloat("ktInPx")));
+                jsonASI.getFloat("width"), jsonASI.getFloat("height"), jsonASI.getFloat("pointerY"), jsonASI.getFloat("ktInPx")));
 
             JSONObject jsonALTM = jsonLayout.getJSONObject("altm");
             pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x"), y + jsonALTM.getFloat("y"),
-                jsonALTM.getFloat("width"), jsonALTM.getFloat("height"), jsonALTM.getFloat("ftInPx")));
+                jsonALTM.getFloat("width"), jsonALTM.getFloat("height"), jsonALTM.getFloat("pointerY"), jsonALTM.getFloat("ftInPx")));
 
         } catch (Exception e) {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");

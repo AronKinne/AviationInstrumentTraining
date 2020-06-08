@@ -15,16 +15,16 @@
             "y": 105,
             "width": 57,
             "height": 305,
-            "ktInPx": 4.4,
-            "pointerY": 140
+            "pointerY": 140,
+            "ktInPx": 4.4
         },
         "altm": {
             "x": 579,
             "y": 103,
             "width": 74,
             "height": 305,
-            "ftInPx": 0.5,
-            "pointerY": 140
+            "pointerY": 140,
+            "ftInPx": 0.5
         }
     }
 }

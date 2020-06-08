@@ -6,9 +6,10 @@ class Altimeter extends Indicator {
 
     float textSize, wSmallLine, wBigLine;
 
+    float center;   // center is y value of center of pointer
     AltimeterPointer altmp;
 
-    Altimeter(Aircraft ac, float x, float y, float w, float h, float ftInPx) {
+    Altimeter(Aircraft ac, float x, float y, float w, float h, float center, float ftInPx) {
         super(ac, x, y, w, h);
 
         this.ftInPx = ftInPx;
@@ -18,7 +19,8 @@ class Altimeter extends Indicator {
         wBigLine = wSmallLine * 2;
         bgH = h * 3;
 
-        altmp = new AltimeterPointer(this, y + h * .5 - textSize * 2.8, textSize * 2.8);
+        this.center = center;
+        altmp = new AltimeterPointer(this, y + center - textSize * 2.8, textSize * 2.8);
 
         background = createGraphics((int)bgW, (int)bgH);
         mask = createGraphics((int)bgW, (int)bgH);
@@ -52,21 +54,23 @@ class Altimeter extends Indicator {
         background.beginDraw();
         background.background(51);
 
+        // small lines
         background.stroke(255);
         background.strokeWeight(1);
-        for(float y = bgH * .5; y > 0; y -= smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
-        for(float y = bgH * .5; y < bgH; y += smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
+        for(float y = bgH * .5 + center - h * .5; y > 0; y -= smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
+        for(float y = bgH * .5 + center - h * .5; y < bgH; y += smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
 
+        // big lines and numbers
         background.fill(255);
         background.textSize(textSize);
         background.textAlign(LEFT, CENTER);
         int i = 0;
-        for(float y = bgH * .5; y > 0; y -= bigLineStep * ftInPx) {
+        for(float y = bgH * .5 + center - h * .5; y > 0; y -= bigLineStep * ftInPx) {
             background.line(0, y, wBigLine, y);
             background.text((int)nextThousand + i++ * (int)bigLineStep, wBigLine + textSize * .3, y - textSize * .1);
         }
         i = 0;
-        for(float y = bgH * .5; y < bgH; y += bigLineStep * ftInPx) {
+        for(float y = bgH * .5 + center - h * .5; y < bgH; y += bigLineStep * ftInPx) {
             background.line(0, y, wBigLine, y);
             if(i != 0) background.text((int)nextThousand - i * (int)bigLineStep, wBigLine + textSize * .3, y - textSize * .1);
             i++;
