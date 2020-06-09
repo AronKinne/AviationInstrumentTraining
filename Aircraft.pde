@@ -10,7 +10,7 @@ class Aircraft {
     // Speeds in kt
     float ias;   // indicated airspeed
     float vs0;   // stall speed in landing configuration    scala begins, white arc begins
-    float vs1;    // stall speed *vs1*                       green arc begins
+    float vs1;   // stall speed                             green arc begins
     float vfe;   // maximum flaps extended speed            white arc ends
     float vno;   // normal operating speed limit            green arc ends, yellow arc begins
     float vne;   // never-exceed speed                      yellow arc ends, red line
@@ -40,7 +40,7 @@ class Aircraft {
             vne = jsonSpeeds.getFloat("vne");
             ias = (vno + vfe) * .5;
 
-            //println(maxPitchVel, maxRollVel, vs0, vs, vfe, vno, vne);
+            //println(maxPitchVel, maxRollVel, vs0, vs1, vfe, vno, vne);
         } catch (Exception e) {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. App will terminate now!");
             exit();
@@ -54,8 +54,6 @@ class Aircraft {
 
         vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
         alt += vs / (frameRate * frameRate);
-
-        // 60 f/s => 1f / 1/60s
         
         println(pitch, roll);
     }
@@ -70,7 +68,7 @@ class Aircraft {
         pfd.setADI(scale);
         pfd.addIndicator(new AirspeedIndicator(this, x + 150, y + 50, 100, 400, scale * .6));
         pfd.addIndicator(new Altimeter(this, x + w - 300, y + 50, 110, 400, scale * .06));
-        pfd.addIndicator(new VerticalSpeedIndicator(this, x + w - 190, y + 60, 40, 380, scale * .06));
+        pfd.addIndicator(new VerticalSpeedIndicator(this, x + w - 190, y + 60, 30, 380, 80, scale * .004));
     }
 
     void mouseReleased() {
