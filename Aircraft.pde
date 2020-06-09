@@ -58,17 +58,11 @@ class Aircraft {
         if(pfd != null) pfd.processMouseInput();
     }
 
-    /* old
-    void createPFD(float x, float y, float w, float h, float scale) {
-        pfd = new FlightDisplay(this, x, y, w, h);
-
-        pfd.setADI(0, -100, scale);
-        pfd.addIndicator(new AirspeedIndicator(this, x + 50, y + 50, 100, h - 100, scale * .6));
-        pfd.addIndicator(new Altimeter(this, x + w - 150, y + 50, 110, h - 100, scale * .06));
-    }
-    */
-
     void createPFD(float x, float y, String jsonPath) {
+        createPFD(x, y, 0, 0, jsonPath);
+    }
+
+    void createPFD(float x, float y, float w, float h, String jsonPath) {
         JSONObject jsonFile = null;
 
         try {
@@ -80,18 +74,31 @@ class Aircraft {
 
         try {
             JSONObject jsonLayout = jsonFile.getJSONObject("layout");
-            pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width"), jsonLayout.getFloat("height"));
+
+            float sX = w / jsonLayout.getFloat("width");
+            float sY = h / jsonLayout.getFloat("height");
+
+            if(w <= 0 && h <= 0) {
+                sX = 1;
+                sY = 1;
+            } else if(w <= 0 && h > 0) {
+                sX = sY;
+            } else if(w > 0 && h <= 0) {
+                sY = sX;
+            }
+
+            pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width") * sX, jsonLayout.getFloat("height") * sY);
 
             JSONObject jsonADI = jsonLayout.getJSONObject("adi");
-            pfd.setADI(x + jsonADI.getFloat("pivotX"), y + jsonADI.getFloat("pivotY"), jsonADI.getFloat("degInPx"));
+            pfd.setADI(x + jsonADI.getFloat("pivotX") * sX, y + jsonADI.getFloat("pivotY") * sY, jsonADI.getFloat("degInPx") * sY);
 
             JSONObject jsonASI = jsonLayout.getJSONObject("asi");
-            pfd.addIndicator(new AirspeedIndicator(this, x + jsonASI.getFloat("x"), y + jsonASI.getFloat("y"),
-                jsonASI.getFloat("width"), jsonASI.getFloat("height"), jsonASI.getFloat("pointerY"), jsonASI.getFloat("ktInPx")));
+            pfd.addIndicator(new AirspeedIndicator(this, x + jsonASI.getFloat("x") * sX, y + jsonASI.getFloat("y") * sY,
+                jsonASI.getFloat("width") * sX, jsonASI.getFloat("height") * sY, jsonASI.getFloat("pointerY") * sY, jsonASI.getFloat("ktInPx") * sY));
 
             JSONObject jsonALTM = jsonLayout.getJSONObject("altm");
-            pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x"), y + jsonALTM.getFloat("y"),
-                jsonALTM.getFloat("width"), jsonALTM.getFloat("height"), jsonALTM.getFloat("pointerY"), jsonALTM.getFloat("ftInPx")));
+            pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x") * sX, y + jsonALTM.getFloat("y") * sY,
+                jsonALTM.getFloat("width") * sX, jsonALTM.getFloat("height") * sY, jsonALTM.getFloat("pointerY") * sY, jsonALTM.getFloat("ftInPx") * sY));
 
         } catch (Exception e) {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");

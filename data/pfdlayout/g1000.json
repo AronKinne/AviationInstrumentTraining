@@ -1,7 +1,7 @@
 {
     "name": "Garmin G1000",
-    "_ruler": "https://www.rapidtables.com/web/tools/pixel-ruler.html",
-    "_used_img": "https://en.wikipedia.org/wiki/Primary_flight_display#/media/File:PFD.png",
+    "_img": "https://en.wikipedia.org/wiki/Primary_flight_display#/media/File:PFD.png",
+    "_other img": "https://www.aopa.org/-/media/Images/AOPA-Main/News-and-Media/2017/January/0103_kingair_g1000_nxi_03.jpg",
     "layout": {
         "width": 854,
         "height": 657,
