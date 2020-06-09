@@ -104,6 +104,10 @@ class Aircraft {
             pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x") * sX, y + jsonALTM.getFloat("y") * sY,
                 jsonALTM.getFloat("width") * sX, jsonALTM.getFloat("height") * sY, jsonALTM.getFloat("pointerY") * sY, jsonALTM.getFloat("ftInPx") * sY));
 
+            JSONObject jsonVSI = jsonLayout.getJSONObject("vsi");
+            pfd.addIndicator(new VerticalSpeedIndicator(this, x + jsonVSI.getFloat("x") * sX, y + jsonVSI.getFloat("y") * sY,
+                jsonVSI.getFloat("width") * sX, jsonVSI.getFloat("height") * sY, jsonVSI.getFloat("pointerW") * sX, jsonVSI.getFloat("fpmInPx") * sY));
+
         } catch (Exception e) {
             println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");
             exit();

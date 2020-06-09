@@ -114,6 +114,8 @@ class VerticalSpeedIndicator extends Indicator {
         }
 
         void generateBackground() {
+            float textSize = w / max(str(floor(abs(ac.vs))).length(), 3);
+
             background.beginDraw();
 
             background.fill(0);
@@ -130,7 +132,7 @@ class VerticalSpeedIndicator extends Indicator {
             if(floor(ac.vs / 10) * 10 != 0) {
                 background.fill(255);
                 background.textAlign(RIGHT, CENTER);
-                background.textSize(vsi.textSize);
+                background.textSize(textSize);
                 background.text(floor(ac.vs / 10) * 10, w - textSize * .1, h * .5 - textSize * .1);
             }
 

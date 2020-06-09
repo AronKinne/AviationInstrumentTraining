@@ -25,6 +25,14 @@
             "height": 305,
             "pointerY": 140,
             "ftInPx": 0.5
+        },
+        "vsi": {
+            "x": 653,
+            "y": 113,
+            "width": 29,
+            "height": 267,
+            "pointerW": 49,
+            "fpmInPx": 0.03
         }
     }
 }
