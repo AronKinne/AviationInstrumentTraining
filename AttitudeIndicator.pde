@@ -2,7 +2,8 @@ class AttitudeIndicator extends Indicator {
 
     boolean isFlat = true;
 
-    // x, y is center
+    // x, y is center of frame
+    float pivotX, pivotY;   // center of 0 pitch and 0 roll
     color colSky, colGround, colReference;   // colors of sky, ground and reference marker
 
     float degInPx;   // 1 deg = <degInPx> px
@@ -10,15 +11,20 @@ class AttitudeIndicator extends Indicator {
 
     private float scale;   // necessary because other values are optimized for degInPx = 10
     
-    AttitudeIndicator(Aircraft ac, float x, float y, float w, float h, float degInPx) {
+    AttitudeIndicator(Aircraft ac, float x, float y, float w, float h, float pivotX, float pivotY, float degInPx) {
         super(ac, x, y, w, h);
         this.degInPx = degInPx;
+
+        this.pivotX = pivotX;
+        this.pivotY = pivotY;
 
         colSky = color(135, 206, 250);
         colGround = color(160, 82, 45);
         colReference = color(255, 255, 0);
         
-        float diag = sqrt(w * w + h * h);
+        float dh = h + abs(pivotY - y) * 2;
+        float dw = w + abs(pivotX - x) * 2;
+        float diag = sqrt(dw * dw + dh * dh);
         bgW = diag + 10;
         bgH = (90 * degInPx + diag * .5 + 5) * 2;
         scale = degInPx / 10;
@@ -31,7 +37,7 @@ class AttitudeIndicator extends Indicator {
     void draw() {
         pushMatrix();
 
-        translate(x, y);
+        translate(pivotX, pivotY);
         rotate(radians(-ac.roll));
         translate(0, ac.pitch * degInPx);
 
@@ -50,8 +56,8 @@ class AttitudeIndicator extends Indicator {
 
     void processMouseInput() {
         if(mouseActive) {
-            ac.pitchVel = constrain(map(mouseY, y - h * .5, y + h * .5, -ac.maxPitchVel, ac.maxPitchVel) * cos(radians(ac.roll)), -ac.maxPitchVel, ac.maxPitchVel);
-            ac.rollVel = constrain(map(mouseX, x - w * .5, x + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
+            ac.pitchVel = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxPitchVel, ac.maxPitchVel) * cos(radians(ac.roll)), -ac.maxPitchVel, ac.maxPitchVel);
+            ac.rollVel = constrain(map(mouseX, pivotX - w * .5, pivotX + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
         }
 
         ac.pitch += ac.pitchVel;
@@ -127,7 +133,7 @@ class AttitudeIndicator extends Indicator {
 
         mask.translate(bgW * .5, -ac.pitch * degInPx + bgH * .5);
         mask.rotate(radians(ac.roll));
-        mask.translate(-w * .5, -h * .5);
+        mask.translate(-w * .5 + x - pivotX, -h * .5 + y - pivotY);
 
         mask.rect(0, 0, w, h);
 
@@ -144,11 +150,11 @@ class AttitudeIndicator extends Indicator {
         noStroke();
         fill(colReference);
 
-        rect(x - thickness * .5, y - thickness * .5, thickness, thickness);
-        rect(x - wingDist - wingLength, y - thickness * .5, wingLength, thickness);
-        rect(x + wingDist, y - thickness * .5, wingLength, thickness);
-        rect(x - wingDist - thickness, y - thickness * .5, thickness, wingDepth);
-        rect(x + wingDist, y - thickness * .5, thickness, wingDepth);
+        rect(pivotX - thickness * .5, pivotY - thickness * .5, thickness, thickness);
+        rect(pivotX - wingDist - wingLength, pivotY - thickness * .5, wingLength, thickness);
+        rect(pivotX + wingDist, pivotY - thickness * .5, wingLength, thickness);
+        rect(pivotX - wingDist - thickness, pivotY - thickness * .5, thickness, wingDepth);
+        rect(pivotX + wingDist, pivotY - thickness * .5, thickness, wingDepth);
     }
 
 }

@@ -55,20 +55,59 @@ class Aircraft {
         vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
         alt += vs / (frameRate * frameRate);
         
-        println(pitch, roll);
+        //println(pitch, roll);
     }
 
     void processMouseInput() {
         if(pfd != null) pfd.processMouseInput();
     }
 
-    void createPFD(float x, float y, float w, float h, float scale) {
-        pfd = new FlightDisplay(this, x, y, w, h);
+    void createPFD(float x, float y, String jsonPath) {
+        createPFD(x, y, 0, 0, jsonPath);
+    }
 
-        pfd.setADI(scale);
-        pfd.addIndicator(new AirspeedIndicator(this, x + 150, y + 50, 100, 400, scale * .6));
-        pfd.addIndicator(new Altimeter(this, x + w - 300, y + 50, 110, 400, scale * .06));
-        pfd.addIndicator(new VerticalSpeedIndicator(this, x + w - 190, y + 60, 30, 380, 80, scale * .004));
+    void createPFD(float x, float y, float w, float h, String jsonPath) {
+        JSONObject jsonFile = null;
+
+        try {
+            jsonFile = loadJSONObject(jsonPath);
+        } catch (Exception e) {
+            println("ERROR: Could not load JSON File from path: \"" + jsonPath + "\". App will terminate now!");
+            exit();
+        }
+
+        try {
+            JSONObject jsonLayout = jsonFile.getJSONObject("layout");
+
+            float sX = w / jsonLayout.getFloat("width");
+            float sY = h / jsonLayout.getFloat("height");
+
+            if(w <= 0 && h <= 0) {
+                sX = 1;
+                sY = 1;
+            } else if(w <= 0 && h > 0) {
+                sX = sY;
+            } else if(w > 0 && h <= 0) {
+                sY = sX;
+            }
+
+            pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width") * sX, jsonLayout.getFloat("height") * sY);
+
+            JSONObject jsonADI = jsonLayout.getJSONObject("adi");
+            pfd.setADI(x + jsonADI.getFloat("pivotX") * sX, y + jsonADI.getFloat("pivotY") * sY, jsonADI.getFloat("degInPx") * sY);
+
+            JSONObject jsonASI = jsonLayout.getJSONObject("asi");
+            pfd.addIndicator(new AirspeedIndicator(this, x + jsonASI.getFloat("x") * sX, y + jsonASI.getFloat("y") * sY,
+                jsonASI.getFloat("width") * sX, jsonASI.getFloat("height") * sY, jsonASI.getFloat("pointerY") * sY, jsonASI.getFloat("ktInPx") * sY));
+
+            JSONObject jsonALTM = jsonLayout.getJSONObject("altm");
+            pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x") * sX, y + jsonALTM.getFloat("y") * sY,
+                jsonALTM.getFloat("width") * sX, jsonALTM.getFloat("height") * sY, jsonALTM.getFloat("pointerY") * sY, jsonALTM.getFloat("ftInPx") * sY));
+
+        } catch (Exception e) {
+            println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");
+            exit();
+        }
     }
 
     void mouseReleased() {

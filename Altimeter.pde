@@ -4,20 +4,23 @@ class Altimeter extends Indicator {
 
     float nextThousand;
 
-    final float textSize = 20;
-    final float wBigLine = 14;
-    final float wSmallLine = 7;
+    float textSize, wSmallLine, wBigLine;
 
+    float center;   // center is y value of center of pointer
     AltimeterPointer altmp;
 
-    Altimeter(Aircraft ac, float x, float y, float w, float h, float ftInPx) {
+    Altimeter(Aircraft ac, float x, float y, float w, float h, float center, float ftInPx) {
         super(ac, x, y, w, h);
 
         this.ftInPx = ftInPx;
 
+        textSize = w * .17;
+        wSmallLine = w * .08;
+        wBigLine = wSmallLine * 2;
         bgH = h * 3;
 
-        altmp = new AltimeterPointer(this, y + h * .5 - textSize * 2.8, textSize * 2.8);
+        this.center = center;
+        altmp = new AltimeterPointer(this, y + center - textSize * 2.8, textSize * 2.8);
 
         background = createGraphics((int)bgW, (int)bgH);
         mask = createGraphics((int)bgW, (int)bgH);
@@ -51,21 +54,23 @@ class Altimeter extends Indicator {
         background.beginDraw();
         background.background(71);
 
+        // small lines
         background.stroke(255);
         background.strokeWeight(1);
-        for(float y = bgH * .5; y > 0; y -= smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
-        for(float y = bgH * .5; y < bgH; y += smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
+        for(float y = bgH * .5 + center - h * .5; y > 0; y -= smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
+        for(float y = bgH * .5 + center - h * .5; y < bgH; y += smallLineStep * ftInPx) background.line(0, y, wSmallLine, y);
 
+        // big lines and numbers
         background.fill(255);
         background.textSize(textSize);
         background.textAlign(LEFT, CENTER);
         int i = 0;
-        for(float y = bgH * .5; y > 0; y -= bigLineStep * ftInPx) {
+        for(float y = bgH * .5 + center - h * .5; y > 0; y -= bigLineStep * ftInPx) {
             background.line(0, y, wBigLine, y);
             background.text((int)nextThousand + i++ * (int)bigLineStep, wBigLine + textSize * .3, y - textSize * .1);
         }
         i = 0;
-        for(float y = bgH * .5; y < bgH; y += bigLineStep * ftInPx) {
+        for(float y = bgH * .5 + center - h * .5; y < bgH; y += bigLineStep * ftInPx) {
             background.line(0, y, wBigLine, y);
             if(i != 0) background.text((int)nextThousand - i * (int)bigLineStep, wBigLine + textSize * .3, y - textSize * .1);
             i++;
@@ -148,7 +153,7 @@ class Altimeter extends Indicator {
         }
 
         void generateShape(boolean forMask) {
-            final float wRightPart = textSize * 1.5;
+            final float wLeftPart = textSize * 1.8;
 
             shape = createShape();
             shape.beginShape();
@@ -164,12 +169,12 @@ class Altimeter extends Indicator {
             shape.vertex(wSmallLine, h * .5);
             shape.vertex(wBigLine, h * .5 - wSmallLine);
             shape.vertex(wBigLine, h / 6);
-            shape.vertex(w - wRightPart, h / 6);
-            shape.vertex(w - wRightPart, 0);
+            shape.vertex(wBigLine + wLeftPart, h / 6);
+            shape.vertex(wBigLine + wLeftPart, 0);
             shape.vertex(w, 0);
             shape.vertex(w, h);
-            shape.vertex(w - wRightPart, h);
-            shape.vertex(w - wRightPart, h * 5/6);
+            shape.vertex(wBigLine + wLeftPart, h);
+            shape.vertex(wBigLine + wLeftPart, h * 5/6);
             shape.vertex(wBigLine, h * 5/6);
             shape.vertex(wBigLine, h * .5 + wSmallLine);
 

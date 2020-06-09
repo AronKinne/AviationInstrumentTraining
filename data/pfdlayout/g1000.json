@@ -1,0 +1,30 @@
+{
+    "name": "Garmin G1000",
+    "_img": "https://en.wikipedia.org/wiki/Primary_flight_display#/media/File:PFD.png",
+    "_other img": "https://www.aopa.org/-/media/Images/AOPA-Main/News-and-Media/2017/January/0103_kingair_g1000_nxi_03.jpg",
+    "layout": {
+        "width": 854,
+        "height": 657,
+        "adi": {
+            "pivotX": 386,
+            "pivotY": 245,
+            "degInPx": 6.1 
+        },
+        "asi": {
+            "x": 139,
+            "y": 105,
+            "width": 57,
+            "height": 305,
+            "pointerY": 140,
+            "ktInPx": 4.4
+        },
+        "altm": {
+            "x": 579,
+            "y": 103,
+            "width": 74,
+            "height": 305,
+            "pointerY": 140,
+            "ftInPx": 0.5
+        }
+    }
+}
