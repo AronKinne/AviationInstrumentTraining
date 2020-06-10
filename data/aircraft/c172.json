@@ -1,5 +1,6 @@
 {
     "name": "Cessna 172",
+    "pfdlayout": "data/pfdlayout/g1000.json",
     "axes": {
         "maxPitchVel": 0.6,
         "maxRollVel": 2

@@ -1,5 +1,6 @@
 {
     "name": "Airbus A320",
+    "pfdlayout": "data/pfdlayout/classic6.json",
     "axes": {
         "maxPitchVel": 1,
         "maxRollVel": 3

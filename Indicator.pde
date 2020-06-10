@@ -23,4 +23,12 @@ abstract class Indicator {
 
     abstract void generateMask();
 
+    void createBackground() {
+        background = createGraphics((int)bgW, (int)bgH);
+    }
+
+    void createMask() {
+        mask = createGraphics((int)bgW, (int)bgH);
+    }
+
 }

@@ -29,8 +29,7 @@ class AttitudeIndicator extends Indicator {
         bgH = (90 * degInPx + diag * .5 + 5) * 2;
         scale = degInPx / 10;
         
-        mask = createGraphics((int)bgW, (int)bgH);
-
+        createMask();
         generateBackground();
     }
 
@@ -88,7 +87,7 @@ class AttitudeIndicator extends Indicator {
         float cx = bgW * .5;
         float cy = bgH * .5;
 
-        background = createGraphics((int)bgW, (int)bgH);
+        createBackground();
         background.beginDraw();
 
         background.background(colSky);

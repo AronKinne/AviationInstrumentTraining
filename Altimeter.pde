@@ -22,8 +22,8 @@ class Altimeter extends Indicator {
         this.center = center;
         altmp = new AltimeterPointer(this, y + center - textSize * 2.8, textSize * 2.8);
 
-        background = createGraphics((int)bgW, (int)bgH);
-        mask = createGraphics((int)bgW, (int)bgH);
+        createBackground();
+        createMask();
     }
 
     void draw() {
@@ -105,8 +105,7 @@ class Altimeter extends Indicator {
 
             bgH = h * 2;
 
-            background = createGraphics((int)bgW, (int)bgH);
-
+            createBackground();
             generateShape(true);
             generateMask();
             generateShape(false);
@@ -145,7 +144,7 @@ class Altimeter extends Indicator {
         }
 
         void generateMask() {
-            mask = createGraphics((int)bgW, (int)bgH);
+            createMask();
             mask.beginDraw();
             mask.background(0);
             mask.shape(shape, 0, bgH * .5 - h * .5);

@@ -34,7 +34,7 @@ class VerticalSpeedIndicator extends Indicator {
         float wLine = 5;
         int numberStep = 2;
 
-        background = createGraphics((int)bgW, (int)bgH);
+        createBackground();
 
         background.beginDraw();
         background.background(71);
@@ -63,7 +63,7 @@ class VerticalSpeedIndicator extends Indicator {
     }
 
     void generateMask() {
-        mask = createGraphics((int)bgW, (int)bgH);
+        createMask();
         mask.beginDraw();
         mask.background(0);
         mask.shape(shape, 0, 0);
@@ -102,7 +102,7 @@ class VerticalSpeedIndicator extends Indicator {
 
             this.vsi = vsi;
 
-            background = createGraphics((int)bgW, (int)bgH);
+            createBackground();
         }
 
         void draw() {
@@ -139,9 +139,7 @@ class VerticalSpeedIndicator extends Indicator {
             background.endDraw();
         }
 
-        void generateMask() {
-
-        }
+        void generateMask() {}
 
     }
 }

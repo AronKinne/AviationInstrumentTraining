@@ -24,7 +24,7 @@ class AirspeedIndicator extends Indicator {
         
         bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h * 2;
 
-        mask = createGraphics((int)bgW, (int)bgH);
+        createMask();
         generateBackground();
     }
 
@@ -50,7 +50,7 @@ class AirspeedIndicator extends Indicator {
 
         float redLine = map(ac.vne, ac.vs0, maxScala, bgH - h, h) + center;
         float yellowLower = map(ac.vno, ac.vs0, maxScala, bgH - h, h) + center;
-        float greenLower = map(ac.vs, ac.vs0, maxScala, bgH - h, h) + center;
+        float greenLower = map(ac.vs1, ac.vs0, maxScala, bgH - h, h) + center;
         float whiteUpper = map(ac.vfe, ac.vs0, maxScala, bgH - h, h) + center;
 
         float whiteArcW = arcW * .5;
@@ -59,7 +59,7 @@ class AirspeedIndicator extends Indicator {
         float wSmallLine = arcW;
         float wRedLine = 3;
 
-        background = createGraphics((int)bgW, (int)bgH);
+        createBackground();
 
         background.beginDraw();
         background.background(71);
@@ -127,8 +127,7 @@ class AirspeedIndicator extends Indicator {
 
             bgH = h * 2;
 
-            background = createGraphics((int)bgW, (int)bgH);
-
+            createBackground();
             generateShape(true);
             generateMask();
             generateShape(false);
@@ -159,7 +158,7 @@ class AirspeedIndicator extends Indicator {
         }
 
         void generateMask() {
-            mask = createGraphics((int)bgW, (int)bgH);
+            createMask();
             mask.beginDraw();
             mask.background(0);
             mask.shape(shape, 0, bgH * .5 - h * .5);

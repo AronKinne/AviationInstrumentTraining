@@ -1,6 +1,6 @@
 class Aircraft {
 
-    JSONObject jsonAC;   // Aircraft of JSON file as JSON Object
+    String layoutPath;   // Path of json file for pfd layout
     FlightDisplay pfd;   // Primary Flight Display
     
     // Aircraft principal axes
@@ -20,6 +20,8 @@ class Aircraft {
     float vs;    // vertical speed in ft/min
 
     Aircraft(String jsonPath) {
+        JSONObject jsonAC = null;
+
         try {
             jsonAC = loadJSONObject(jsonPath);
         } catch (Exception e) {
@@ -28,6 +30,8 @@ class Aircraft {
         }
 
         try {
+            layoutPath = jsonAC.getString("pfdlayout");
+
             JSONObject jsonAxes = jsonAC.getJSONObject("axes");
             maxPitchVel = jsonAxes.getFloat("maxPitchVel");
             maxRollVel = jsonAxes.getFloat("maxRollVel");
@@ -62,17 +66,17 @@ class Aircraft {
         if(pfd != null) pfd.processMouseInput();
     }
 
-    void createPFD(float x, float y, String jsonPath) {
-        createPFD(x, y, 0, 0, jsonPath);
+    void createPFD(float x, float y) {
+        createPFD(x, y, 0, 0);
     }
 
-    void createPFD(float x, float y, float w, float h, String jsonPath) {
+    void createPFD(float x, float y, float w, float h) {
         JSONObject jsonFile = null;
 
         try {
-            jsonFile = loadJSONObject(jsonPath);
+            jsonFile = loadJSONObject(layoutPath);
         } catch (Exception e) {
-            println("ERROR: Could not load JSON File from path: \"" + jsonPath + "\". App will terminate now!");
+            println("ERROR: Could not load JSON File from path: \"" + layoutPath + "\". App will terminate now!");
             exit();
         }
 
@@ -109,7 +113,7 @@ class Aircraft {
                 jsonVSI.getFloat("width") * sX, jsonVSI.getFloat("height") * sY, jsonVSI.getFloat("pointerW") * sX, jsonVSI.getFloat("fpmInPx") * sY));
 
         } catch (Exception e) {
-            println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");
+            println("ERROR: JSON File from path: \"" + layoutPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");
             exit();
         }
     }

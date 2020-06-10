@@ -1,0 +1,37 @@
+{
+    "name": "Classic 6 instruments",
+    "_img": "https://en.wikipedia.org/wiki/Primary_flight_display#/media/File:Primary_Flight_Display_of_a_Boeing_737-800.png",
+    "layout": {
+        "width": 855,
+        "height": 763,
+        "adi": {
+            "pivotX": 377,
+            "pivotY": 372,
+            "degInPx": 8 
+        },
+        "asi": {
+            "x": 13,
+            "y": 100,
+            "width": 107,
+            "height": 546,
+            "pointerY": 273,
+            "ktInPx": 4.6
+        },
+        "altm": {
+            "x": 654,
+            "y": 100,
+            "width": 107,
+            "height": 546,
+            "pointerY": 273,
+            "ftInPx": 0.68
+        },
+        "vsi": {
+            "x": 787,
+            "y": 184,
+            "width": 34,
+            "height": 379,
+            "pointerW": 68,
+            "fpmInPx": 0.029
+        }
+    }
+}
