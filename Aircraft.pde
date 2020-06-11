@@ -95,14 +95,23 @@ class Aircraft {
                 sY = sX;
             }
 
-            pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width") * sX, jsonLayout.getFloat("height") * sY);
+            JSONArray jsonBg = jsonLayout.getJSONArray("background");
+            color bgColor = color(0);
+            if(jsonBg != null) {
+                bgColor = color(jsonBg.getInt(0), jsonBg.getInt(1), jsonBg.getInt(2), jsonBg.getInt(3));
+            }
+            pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width") * sX, jsonLayout.getFloat("height") * sY, bgColor);
 
             JSONObject jsonADI = jsonLayout.getJSONObject("adi");
-            pfd.setADI(x + jsonADI.getFloat("pivotX") * sX, y + jsonADI.getFloat("pivotY") * sY, jsonADI.getFloat("degInPx") * sY);
+            pfd.setADI(jsonADI.get("x") == null ? x : x + jsonADI.getFloat("x"), jsonADI.get("y") == null ? y : y + jsonADI.getFloat("y"),
+                jsonADI.get("width") == null ? jsonLayout.getFloat("width") : jsonADI.getFloat("width"),
+                jsonADI.get("height") == null ? jsonLayout.getFloat("height") : jsonADI.getFloat("height"),
+                x + jsonADI.getFloat("pivotX") * sX, y + jsonADI.getFloat("pivotY") * sY, jsonADI.getFloat("degInPx") * sY);
 
             JSONObject jsonASI = jsonLayout.getJSONObject("asi");
             pfd.addIndicator(new AirspeedIndicator(this, x + jsonASI.getFloat("x") * sX, y + jsonASI.getFloat("y") * sY,
-                jsonASI.getFloat("width") * sX, jsonASI.getFloat("height") * sY, jsonASI.getFloat("pointerY") * sY, jsonASI.getFloat("ktInPx") * sY));
+                jsonASI.getFloat("width") * sX, jsonASI.getFloat("height") * sY, jsonASI.getFloat("pointerY") * sY,
+                jsonASI.get("numberStep") == null ? 10 : jsonASI.getFloat("numberStep"), jsonASI.getFloat("ktInPx") * sY));
 
             JSONObject jsonALTM = jsonLayout.getJSONObject("altm");
             pfd.addIndicator(new Altimeter(this, x + jsonALTM.getFloat("x") * sX, y + jsonALTM.getFloat("y") * sY,

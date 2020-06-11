@@ -48,7 +48,7 @@ class AttitudeIndicator extends Indicator {
 
         drawReference();
         noFill();
-        stroke(0);
+        stroke(255);
         strokeWeight(1);
         rect(x - w * .5, y - h * .5, w, h);
     }

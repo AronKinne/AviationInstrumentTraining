@@ -2,8 +2,8 @@
     "name": "Airbus A320",
     "pfdlayout": "data/pfdlayout/classic6.json",
     "axes": {
-        "maxPitchVel": 1,
-        "maxRollVel": 3
+        "maxPitchVel": 0.2,
+        "maxRollVel": 0.6
     },
     "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:airbus_a320#v-speeds_and_ranges",
     "speeds": {

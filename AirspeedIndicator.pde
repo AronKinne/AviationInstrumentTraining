@@ -6,12 +6,12 @@ class AirspeedIndicator extends Indicator {
     final float ktAbvVne = 10;   // amount of kts above the aircrafts never-exceed speed
 
     final float maxScala = ac.vne + ktAbvVne;
-    float textSize, arcW;
+    float textSize, arcW, numberStep;
 
     float center;   // center is y value of center of pointer
     AirspeedPointer asp;
 
-    AirspeedIndicator(Aircraft ac, float x, float y, float w, float h, float center, float ktInPx) {
+    AirspeedIndicator(Aircraft ac, float x, float y, float w, float h, float center, float numberStep, float ktInPx) {
         super(ac, x, y, w, h);
 
         this.ktInPx = ktInPx;
@@ -20,6 +20,7 @@ class AirspeedIndicator extends Indicator {
         arcW = w * .1;
         
         this.center = center;
+        this.numberStep = numberStep;
         asp = new AirspeedPointer(this, y - textSize * 1.25 + center, textSize * 2.5);
         
         bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h * 2;
@@ -87,7 +88,7 @@ class AirspeedIndicator extends Indicator {
         background.strokeWeight(1);
         for(float y = bgH + offset * ktInPx - h + center; y >= h + center; y -= bigLineStep * ktInPx) {
             background.line(bgW - wBigLine, y, bgW, y);
-            background.text((int)speed, bgW - arcW - textSize * .5, y - textSize * .1);
+            if((int)speed % (int)numberStep == 0) background.text((int)speed, bgW - arcW - textSize * .5, y - textSize * .1);
             speed += bigLineStep;
         }
         for(float y = bgH + (offset - bigLineStep + bigLineStep * .5) * ktInPx - h + center; y > h + center; y -= bigLineStep * ktInPx)
