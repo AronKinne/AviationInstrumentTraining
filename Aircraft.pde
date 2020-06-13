@@ -6,6 +6,7 @@ class Aircraft {
     // Aircraft principal axes
     float pitch, pitchVel, maxPitchVel;
     float roll, rollVel, maxRollVel;
+    float yaw, maxYaw;
 
     // Speeds in kt
     float ias;   // indicated airspeed
@@ -18,6 +19,8 @@ class Aircraft {
     // Performance
     float alt;   // altitude in ft
     float vs;    // vertical speed in ft/min
+    float hdg;   // heading in degrees
+    float turnSpeed, maxTurnSpeed;   // turn speed
 
     Aircraft(String jsonPath) {
         JSONObject jsonAC = null;
@@ -35,6 +38,7 @@ class Aircraft {
             JSONObject jsonAxes = jsonAC.getJSONObject("axes");
             maxPitchVel = jsonAxes.getFloat("maxPitchVel");
             maxRollVel = jsonAxes.getFloat("maxRollVel");
+            maxYaw = jsonAxes.getFloat("maxYaw");
 
             JSONObject jsonSpeeds = jsonAC.getJSONObject("speeds");
             vs0 = jsonSpeeds.getFloat("vs0");
@@ -42,6 +46,7 @@ class Aircraft {
             vfe = jsonSpeeds.getFloat("vfe");
             vno = jsonSpeeds.getFloat("vno");
             vne = jsonSpeeds.getFloat("vne");
+            maxTurnSpeed = jsonSpeeds.getFloat("maxTurnSpeed");
             ias = (vno + vfe) * .5;
 
             //println(maxPitchVel, maxRollVel, vs0, vs1, vfe, vno, vne);
@@ -51,6 +56,7 @@ class Aircraft {
         }
 
         alt = 1000;
+        hdg = 90;
     }
 
     void drawInstruments() {
@@ -58,8 +64,12 @@ class Aircraft {
 
         vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
         alt += vs / (frameRate * frameRate);
+
+        hdg = (hdg + turnSpeed) % 360;
+
+        println(hdg, turnSpeed);
         
-        //println(pitch, roll);
+        //println(pitch, roll, yaw);
     }
 
     void processMouseInput() {

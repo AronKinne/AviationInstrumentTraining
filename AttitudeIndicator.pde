@@ -57,10 +57,12 @@ class AttitudeIndicator extends Indicator {
         if(mouseActive) {
             ac.pitchVel = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxPitchVel, ac.maxPitchVel) * cos(radians(ac.roll)), -ac.maxPitchVel, ac.maxPitchVel);
             ac.rollVel = constrain(map(mouseX, pivotX - w * .5, pivotX + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
+            ac.turnSpeed = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxTurnSpeed, ac.maxTurnSpeed) * sin(radians(ac.roll)), -ac.maxTurnSpeed, ac.maxTurnSpeed);
         }
 
-        ac.pitch += ac.pitchVel;
+        ac.pitch += ac.pitchVel - sin(radians(ac.roll)) * ac.yaw;
         ac.roll = (ac.roll + ac.rollVel) % 360;
+        ac.yaw = sin(radians(ac.roll)) * ac.maxYaw;
 
         if(ac.pitch > 90 || ac.pitch < -90) {
             float diff = ac.pitch - (90 * sign(ac.pitch));

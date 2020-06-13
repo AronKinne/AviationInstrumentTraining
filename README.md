@@ -50,7 +50,8 @@ To create a new aircraft, use the following template:
     "pfdlayout": "path to the used PFD layout",
     "axes": {
         "maxPitchVel": 1,
-        "maxRollVel": 1
+        "maxRollVel": 1,
+        "maxYaw": 1
     },
     "_speeds": "(comment) can be used to store a link as reference for the values",
     "speeds": {
@@ -58,7 +59,8 @@ To create a new aircraft, use the following template:
         "vs1": 150,
         "vfe": 200,
         "vno": 250,
-        "vne": 300
+        "vne": 300,
+        "maxTurnSpeed": 1
     }
 }
 ```
@@ -69,8 +71,9 @@ Key | Description | Example | Used
 -|-|-|-
 name|The name of the aircraft|Airbus A320, Boeing 737, Cessna 172|no
 pfdlayout|The path to the PFD layout used for this aircraft|`data/pfdlayout/g1000.json`|yes
-axes|The maximum pitch and roll speed for mouse control|`0.3`, `1`, ...|yes
+axes|The maximum pitch and roll speed such as maximum yaw for mouse control|`0.3`, `1`, ...|yes
 speeds|The speed values of the certain aircraft in kts|`87.5`, `150`, ...|yes
+maxTurnSpeed|The maximum turn speed of the aircraft|`0.5`, `2`, ...|yes
 
 
 ### PFD Layout

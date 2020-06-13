@@ -3,7 +3,8 @@
     "pfdlayout": "data/pfdlayout/g1000.json",
     "axes": {
         "maxPitchVel": 0.6,
-        "maxRollVel": 2
+        "maxRollVel": 2,
+        "maxYaw": 0.2
     },
     "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:cessna_172_sp#v_speeds",
     "speeds": {
@@ -11,6 +12,7 @@
         "vs1": 48,
         "vfe": 85,
         "vno": 129,
-        "vne": 163
+        "vne": 163,
+        "maxTurnSpeed": 0.5
     }
 }
