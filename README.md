@@ -1,6 +1,6 @@
 # Aviation Instrument Training
 
-This application is made to train pilots instrument skills.
+This training environment is made for pilots, who want to practise their instrument skills.
 
 ## Current state and future ideas
 
@@ -10,35 +10,68 @@ This application is made to train pilots instrument skills.
     - [x] Airspeed Indicator (ASI)
     - [x] Altimeter (ALTM)
     - [x] Vertical Speed Indicator (VSI)
-    - [X] Horizontal Situation Indicator (HSI)
+    - [x] Horizontal Situation Indicator (HSI)
     - [ ] Slip Skid Indicator
   - [x] controllable by mouse with easy physics
-  - [ ] JSON implementation
-    - [ ] customizable layout for the whole Training Evironment
-    - [x] specific values for different aircrafts
-    - [x] customizable layout for the PFD
 - [ ] Training Environment
   - [ ] map with locations of aircraft and radio navigation systems
   - [ ] Radio Navigation Systems
     - [ ] VOR
     - [ ] NDB
+- [ ] JSON implementation
+  - [x] customizable layout for the whole Training Evironment
+  - [x] specific values for different aircrafts
+  - [x] customizable layout for the PFD
+  - [ ] customizable layout for the map
 
 Feel free to suggest further ideas by creating a [new issue](https://github.com/AronKinne/AviationInstrumentTraining/issues/new/choose).
 
-## How to create a new JSON File
+## How to use JSON Files
 
-In the following JSON templates are sometimes keys, starting with `_`.
+To improve and personalize your training you can configure the whole environment with JSON files. In the following paragraphes you will see how this is done.
+
+In some of the following JSON templates, you might find some keys, starting with `_`.
 Those keys are not used, but might be helpful for comments or links.
 
-### <a name="json_aircraft"></a> Aircraft
+### Environment
+
+To configure the whole training environment, you can use [environment.json](data/environment.json). This file has to follow this structure:
+
+```json
+{
+  "aircraft": {
+    "path": "json path to aircraft",
+    "pfd": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    }
+  },
+  "map": {
+    "bounds": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    }
+  }
+}
+```
+
+Explanation:
+
+| Key                 | Description                                                                                          | Optional | Default |
+| ------------------- | ---------------------------------------------------------------------------------------------------- | -------- | ------- |
+| aircraft: path      | The path of the json file containing information about the used aircraft                             | no       | -       |
+| aircraft: pfd: x, y | The position of the PFD                                                                              | no       | -       |
+| aircraft: pfd: w, h | The size of the PFD. If `w, h <= 0`, only the other value or the default size is used for rescaling. | yes      | `0`     |
+| map: bounds         | The position and size of the map                                                                     | no       | -       |
+
+### Aircraft
 
 Aircraft JSON files should be placed in the `data/aircraft` folder.
-To actually use a particular file, you have to change the path manually in the code (this might be changed soon).
-You will find that particular line in [AviationInstrumentTraining.pde](AviationInstrumentTraining.pde), which is also the main file:
-
-```java
-ac = new Aircraft("json path");
-```
+To actually use a particular file, you have to change the path in the environment file ([see Environment](#Environment)).
 
 To create a new aircraft, use the following template:
 
@@ -77,13 +110,13 @@ Explanation:
 
 Those files are used to customize the layout of the PFD.
 Place a new file in the folder `data/pfdlayout`.
-To use a layout for a certain aircraft, put the path of the layout file in the JSON file of the aircraft ([see above](#json_aircraft)).
+To use a layout for a certain aircraft, put the path of the layout file in the JSON file of the aircraft ([see Aircraft](#Aircraft)).
 
 The most values in this file are position or size values.
-Every value is relative to its parent.
+Every value is relative to its parents position.
 The position values are always the location of the top-left corner.
-To get the values, I suggest to find an appropriate image of the PFD use it with an [online ruler tool](https://www.rapidtables.com/web/tools/pixel-ruler.html).
-Then you can just input every integer or floating point number.
+To get the values, I suggest to find an appropriate image of the PFD and to use it with an [online ruler tool](https://www.rapidtables.com/web/tools/pixel-ruler.html).
+Then you can input every value as integer or floating point number.
 
 To create a new PFD layout, use the following template:
 
@@ -157,9 +190,9 @@ Explanation:
 | altm: ftInPx                          | Used for the scala. `1 foot = <ftInPx> pixels`                                                                  | no       | -                                   |
 | vsi: pointerW                         | The width of the pointer                                                                                        | no       | -                                   |
 | vsi: fpmInPx                          | Used for the scala. `1 foot per minute = <fpmInPx> pixels`                                                      | no       | -                                   |
-| hsi: d                                | The diameter of the HSI                                                                                         | no       |-                                   |
+| hsi: d                                | The diameter of the HSI                                                                                         | no       | -                                   |
 | hsi: bigLineWidth                     | The width of one of the big lines on the scala of the HSI                                                       | no       | -                                   |
-| hsi: numberStep                       | The step size of the numbers of the scala                                                                       | yes      | `30`                                |               
+| hsi: numberStep                       | The step size of the numbers of the scala                                                                       | yes      | `30`                                |
 
 A graphical explanation might follow soon.
 

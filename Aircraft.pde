@@ -28,7 +28,7 @@ class Aircraft {
         try {
             jsonAC = loadJSONObject(jsonPath);
         } catch (Exception e) {
-            println("ERROR: Could not load JSON File from path: \"" + jsonPath + "\". App will terminate now!");
+            println("ERROR: Could not load aircraft file from path: \"" + jsonPath + "\". App will terminate now!");
             exit();
         }
 
@@ -51,7 +51,7 @@ class Aircraft {
 
             //println(maxPitchVel, maxRollVel, vs0, vs1, vfe, vno, vne);
         } catch (Exception e) {
-            println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
+            println("ERROR: Aircraft file from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
             exit();
         }
 
@@ -84,7 +84,7 @@ class Aircraft {
         try {
             jsonFile = loadJSONObject(layoutPath);
         } catch (Exception e) {
-            println("ERROR: Could not load JSON File from path: \"" + layoutPath + "\". App will terminate now!");
+            println("ERROR: Could not load PFD layout file from path: \"" + layoutPath + "\". App will terminate now!");
             exit();
         }
 
@@ -134,7 +134,7 @@ class Aircraft {
                 jsonHSI.getFloat("bigLineWidth") * min(sX, sY), jsonHSI.get("numberStep") == null ? 30 : jsonHSI.getFloat("numberStep")));
 
         } catch (Exception e) {
-            println("ERROR: JSON File from path: \"" + layoutPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
+            println("ERROR: PFD layout file from path: \"" + layoutPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
             exit();
         }
     }
