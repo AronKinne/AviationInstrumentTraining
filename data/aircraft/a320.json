@@ -3,7 +3,8 @@
     "pfdlayout": "data/pfdlayout/classic6.json",
     "axes": {
         "maxPitchVel": 0.2,
-        "maxRollVel": 0.6
+        "maxRollVel": 0.6,
+        "maxYaw": 0.5
     },
     "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:airbus_a320#v-speeds_and_ranges",
     "speeds": {
@@ -11,6 +12,7 @@
         "vs1": 179,
         "vfe": 200,
         "vno": 250,
-        "vne": 350
+        "vne": 350,
+        "maxTurnSpeed": 0.5
     }
 }

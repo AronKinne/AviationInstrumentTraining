@@ -12,7 +12,7 @@ class VerticalSpeedIndicator extends Indicator {
 
         this.fpmInPx = fpmInPx;
 
-        textSize = 20;
+        textSize = w * 2/3;
 
         vsPointer = new VsPointer(this, pointerWidth);
 

@@ -4,7 +4,7 @@
     "axes": {
         "maxPitchVel": 0.6,
         "maxRollVel": 2,
-        "maxYaw": 0.2
+        "maxYaw": 0.5
     },
     "_speeds": "https://www.aerofly.com/dokuwiki/doku.php/aircraft:cessna_172_sp#v_speeds",
     "speeds": {
@@ -13,6 +13,6 @@
         "vfe": 85,
         "vno": 129,
         "vne": 163,
-        "maxTurnSpeed": 0.5
+        "maxTurnSpeed": 1
     }
 }

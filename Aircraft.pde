@@ -51,12 +51,12 @@ class Aircraft {
 
             //println(maxPitchVel, maxRollVel, vs0, vs1, vfe, vno, vne);
         } catch (Exception e) {
-            println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. App will terminate now!");
+            println("ERROR: JSON File from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
             exit();
         }
 
         alt = 1000;
-        hdg = 90;
+        hdg = 360;
     }
 
     void drawInstruments() {
@@ -65,9 +65,7 @@ class Aircraft {
         vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
         alt += vs / (frameRate * frameRate);
 
-        hdg = (hdg + turnSpeed) % 360;
-
-        println(hdg, turnSpeed);
+        hdg = (hdg + turnSpeed + 359) % 360 + 1;
         
         //println(pitch, roll, yaw);
     }
@@ -113,9 +111,9 @@ class Aircraft {
             pfd = new FlightDisplay(this, x, y, jsonLayout.getFloat("width") * sX, jsonLayout.getFloat("height") * sY, bgColor);
 
             JSONObject jsonADI = jsonLayout.getJSONObject("adi");
-            pfd.setADI(jsonADI.get("x") == null ? x : x + jsonADI.getFloat("x"), jsonADI.get("y") == null ? y : y + jsonADI.getFloat("y"),
-                jsonADI.get("width") == null ? jsonLayout.getFloat("width") : jsonADI.getFloat("width"),
-                jsonADI.get("height") == null ? jsonLayout.getFloat("height") : jsonADI.getFloat("height"),
+            pfd.setADI(jsonADI.get("x") == null ? x : x + jsonADI.getFloat("x") * sX, jsonADI.get("y") == null ? y : y + jsonADI.getFloat("y") * sY,
+                (jsonADI.get("width") == null ? jsonLayout.getFloat("width") : jsonADI.getFloat("width")) * sX,
+                (jsonADI.get("height") == null ? jsonLayout.getFloat("height") : jsonADI.getFloat("height")) * sY,
                 x + jsonADI.getFloat("pivotX") * sX, y + jsonADI.getFloat("pivotY") * sY, jsonADI.getFloat("degInPx") * sY);
 
             JSONObject jsonASI = jsonLayout.getJSONObject("asi");
@@ -131,8 +129,12 @@ class Aircraft {
             pfd.addIndicator(new VerticalSpeedIndicator(this, x + jsonVSI.getFloat("x") * sX, y + jsonVSI.getFloat("y") * sY,
                 jsonVSI.getFloat("width") * sX, jsonVSI.getFloat("height") * sY, jsonVSI.getFloat("pointerW") * sX, jsonVSI.getFloat("fpmInPx") * sY));
 
+            JSONObject jsonHSI = jsonLayout.getJSONObject("hsi");
+            pfd.addIndicator(new HorizontalSituationIndicator(this, x + jsonHSI.getFloat("x") * sX, y + jsonHSI.getFloat("y") * sY, jsonHSI.getFloat("d") * min(sX, sY),
+                jsonHSI.getFloat("bigLineWidth") * min(sX, sY), jsonHSI.get("numberStep") == null ? 30 : jsonHSI.getFloat("numberStep")));
+
         } catch (Exception e) {
-            println("ERROR: JSON File from path: \"" + layoutPath + "\" loaded successfully, but it contains errors. See \"template.json\" for correct syntax. App will terminate now!");
+            println("ERROR: JSON File from path: \"" + layoutPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
             exit();
         }
     }

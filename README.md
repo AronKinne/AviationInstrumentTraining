@@ -2,30 +2,28 @@
 
 This application is made to train pilots instrument skills.
 
-
 ## Current state and future ideas
 
 - [ ] Primary Flight Display (PFD)
-    - [ ] Classic six indicators
-        - [x] Attitude Indicator (ADI)
-        - [x] Airspeed Indicator (ASI)
-        - [x] Altimeter (ALTM)
-        - [x] Vertical Speed Indicator (VSI)
-        - [ ] Horizontal Situation Indicator
-        - [ ] Slip Skid Indicator
-    - [x] controllable by mouse with easy physics
-    - [x] JSON implementation
-        - [ ] customizable layout for the whole Training Evironment
-        - [x] specific values for different aircrafts
-        - [x] customizable layout for the PFD
+  - [ ] Classic six indicators
+    - [x] Attitude Indicator (ADI)
+    - [x] Airspeed Indicator (ASI)
+    - [x] Altimeter (ALTM)
+    - [x] Vertical Speed Indicator (VSI)
+    - [X] Horizontal Situation Indicator (HSI)
+    - [ ] Slip Skid Indicator
+  - [x] controllable by mouse with easy physics
+  - [ ] JSON implementation
+    - [ ] customizable layout for the whole Training Evironment
+    - [x] specific values for different aircrafts
+    - [x] customizable layout for the PFD
 - [ ] Training Environment
-    - [ ] map with locations of aircraft and radio navigation systems
-    - [ ] Radio Navigation Systems
-        - [ ] VOR
-        - [ ] NDB
+  - [ ] map with locations of aircraft and radio navigation systems
+  - [ ] Radio Navigation Systems
+    - [ ] VOR
+    - [ ] NDB
 
 Feel free to suggest further ideas by creating a [new issue](https://github.com/AronKinne/AviationInstrumentTraining/issues/new/choose).
-
 
 ## How to create a new JSON File
 
@@ -36,7 +34,7 @@ Those keys are not used, but might be helpful for comments or links.
 
 Aircraft JSON files should be placed in the `data/aircraft` folder.
 To actually use a particular file, you have to change the path manually in the code (this might be changed soon).
-You will find that particular line in [AviationInstrumentTraining.pde](AviationInstrumentTraining.pde) which is also the main file:
+You will find that particular line in [AviationInstrumentTraining.pde](AviationInstrumentTraining.pde), which is also the main file:
 
 ```java
 ac = new Aircraft("json path");
@@ -67,14 +65,13 @@ To create a new aircraft, use the following template:
 
 Explanation:
 
-Key | Description | Example | Used
--|-|-|-
-name|The name of the aircraft|Airbus A320, Boeing 737, Cessna 172|no
-pfdlayout|The path to the PFD layout used for this aircraft|`data/pfdlayout/g1000.json`|yes
-axes|The maximum pitch and roll speed such as maximum yaw for mouse control|`0.3`, `1`, ...|yes
-speeds|The speed values of the certain aircraft in kts|`87.5`, `150`, ...|yes
-maxTurnSpeed|The maximum turn speed of the aircraft|`0.5`, `2`, ...|yes
-
+| Key          | Description                                                                    | Example                             | Used |
+| ------------ | ------------------------------------------------------------------------------ | ----------------------------------- | ---- |
+| name         | The name of the aircraft                                                       | Airbus A320, Boeing 737, Cessna 172 | no   |
+| pfdlayout    | The path to the PFD layout used for this aircraft                              | `data/pfdlayout/g1000.json`         | yes  |
+| axes         | The maximum pitch and roll speed, as well as the maximum yaw for mouse control | `0.3`, `1`, ...                     | yes  |
+| speeds       | The speed values of the certain aircraft in kts                                | `87.5`, `150`, ...                  | yes  |
+| maxTurnSpeed | The maximum turn speed of the aircraft                                         | `0.5`, `2`, ...                     | yes  |
 
 ### PFD Layout
 
@@ -105,7 +102,7 @@ To create a new PFD layout, use the following template:
             "height": 0,
             "pivotX": 0,
             "pivotY": 0,
-            "degInPx": 0 
+            "degInPx": 0
         },
         "asi": {
             "x": 0,
@@ -131,6 +128,13 @@ To create a new PFD layout, use the following template:
             "height": 0,
             "pointerW": 0,
             "fpmInPx": 0
+        },
+        "hsi": {
+            "x": 0,
+            "y": 0,
+            "d": 0,
+            "bigLineWidth": 0,
+            "numberStep": 0
         }
     }
 }
@@ -138,22 +142,26 @@ To create a new PFD layout, use the following template:
 
 Explanation:
 
-Key|Description|Optional|Default
--|-|-|-
-name|The name of the layout|yes|-
-width, height|The size of the PFD|no|-
-background|The background color, which might be visible. Format: `[R, G, B, ALPHA]`. Every value ranges from `0` to `255`.|yes|`[0, 0, 0, 255]`
-adi: x, y, width, height|The position and size of the ADI|yes|`0, 0, layout width, layout height`
-adi: pivotX, pivotY|The position of the center point of the ADI|no|-
-adi: degInPx|Used for the scala. `1 degree = <degInPx> pixels`|no|-
-other indicators: x, y, width, height|The position and size of the indicator|no|-
-asi and altm: pointerY|The y-position of the pointer|no|-
-asi: numberStep|The step size of the numbers on the scala|yes|`10`
-asi: ktInPx|Used for the scala. `1 knot = <ktInPx> pixels`|no|-
-altm: ftInPx|Used for the scala. `1 foot = <ftInPx> pixels`|no|-
-vsi: pointerW|The width of the pointer|no|-
-vsi: fpmInPx|Used for the scala. `1 foot per minute = <fpmInPx> pixels`|no|-
+| Key                                   | Description                                                                                                     | Optional | Default                             |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------- |
+| name                                  | The name of the layout                                                                                          | yes      | -                                   |
+| width, height                         | The size of the PFD                                                                                             | no       | -                                   |
+| background                            | The background color, which might be visible. Format: `[R, G, B, ALPHA]`. Every value ranges from `0` to `255`. | yes      | `[0, 0, 0, 255]`                    |
+| adi: x, y, width, height              | The position and size of the ADI                                                                                | yes      | `0, 0, layout width, layout height` |
+| adi: pivotX, pivotY                   | The position of the center point of the ADI                                                                     | no       | -                                   |
+| adi: degInPx                          | Used for the scala. `1 degree = <degInPx> pixels`                                                               | no       | -                                   |
+| other indicators: x, y, width, height | The position and size of the indicator                                                                          | no       | -                                   |
+| asi and altm: pointerY                | The y-position of the pointer                                                                                   | no       | -                                   |
+| asi: numberStep                       | The step size of the numbers on the scala                                                                       | yes      | `10`                                |
+| asi: ktInPx                           | Used for the scala. `1 knot = <ktInPx> pixels`                                                                  | no       | -                                   |
+| altm: ftInPx                          | Used for the scala. `1 foot = <ftInPx> pixels`                                                                  | no       | -                                   |
+| vsi: pointerW                         | The width of the pointer                                                                                        | no       | -                                   |
+| vsi: fpmInPx                          | Used for the scala. `1 foot per minute = <fpmInPx> pixels`                                                      | no       | -                                   |
+| hsi: d                                | The diameter of the HSI                                                                                         | no       |-                                   |
+| hsi: bigLineWidth                     | The width of one of the big lines on the scala of the HSI                                                       | no       | -                                   |
+| hsi: numberStep                       | The step size of the numbers of the scala                                                                       | yes      | `30`                                |               
 
+A graphical explanation might follow soon.
 
 ## License
 

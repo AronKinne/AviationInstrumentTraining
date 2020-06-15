@@ -37,6 +37,13 @@
             "height": 379,
             "pointerW": 68,
             "fpmInPx": 0.029
+        },
+        "hsi": {
+            "x": 379,
+            "y": 984,
+            "d": 628,
+            "bigLineWidth": 14,
+            "numberStep": 10
         }
     }
 }
