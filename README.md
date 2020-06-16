@@ -26,16 +26,22 @@ This training environment is made for pilots, who want to practise their instrum
 
 Feel free to suggest further ideas by creating a [new issue](https://github.com/AronKinne/AviationInstrumentTraining/issues/new/choose).
 
-## How to use JSON Files
+## Controls
 
-To improve and personalize your training you can configure the whole environment with JSON files. In the following paragraphes you will see how this is done.
+To control the aircraft, you have to <kbd>&#128432; click</kbd> somewhere within the bounderies of the PFD. Then, mouse control becomes active. Once active the aircraft responds to your mouse input. Move the mouse up or down to pull or push and move it to the right or left to roll in the corresponding direction. Yaw is applied automatically. The center of the input, which means the aircraft is changing whether its pitch nor its roll, is marked by the yellow reference marker. When mouse control is active you can also change the IAS of the aircraft using the mouse wheel or <kbd>&#8593;</kbd> <kbd>&#8595;</kbd>. To exit mouse control, just <kbd>&#128432; click</kbd> anywhere.
+
+## How to use the JSON files
+
+To improve and personalize your training you can configure the whole environment with JSON files in the directory [`data/configs`](data/configs).
+Do not mess with any other files, otherwise the application might break.
+In the following paragraphes you will see how to configure the environment correctly.
 
 In some of the following JSON templates, you might find some keys, starting with `_`.
 Those keys are not used, but might be helpful for comments or links.
 
 ### Environment
 
-To configure the whole training environment, you can use [environment.json](data/environment.json). This file has to follow this structure:
+To configure the whole training environment, you can use [environment.json](data/configs/environment.json). This file has to follow this structure:
 
 ```json
 {
@@ -70,7 +76,7 @@ Explanation:
 
 ### Aircraft
 
-Aircraft JSON files should be placed in the `data/aircraft` folder.
+Aircraft JSON files should be placed in the [`data/configs/aircraft`](data/configs/aircraft) folder.
 To actually use a particular file, you have to change the path in the environment file ([see Environment](#Environment)).
 
 To create a new aircraft, use the following template:
@@ -101,7 +107,7 @@ Explanation:
 | Key          | Description                                                                    | Example                             | Used |
 | ------------ | ------------------------------------------------------------------------------ | ----------------------------------- | ---- |
 | name         | The name of the aircraft                                                       | Airbus A320, Boeing 737, Cessna 172 | no   |
-| pfdlayout    | The path to the PFD layout used for this aircraft                              | `data/pfdlayout/g1000.json`         | yes  |
+| pfdlayout    | The path to the PFD layout used for this aircraft                              | `data/configs/pfdlayout/g1000.json` | yes  |
 | axes         | The maximum pitch and roll speed, as well as the maximum yaw for mouse control | `0.3`, `1`, ...                     | yes  |
 | speeds       | The speed values of the certain aircraft in kts                                | `87.5`, `150`, ...                  | yes  |
 | maxTurnSpeed | The maximum turn speed of the aircraft                                         | `0.5`, `2`, ...                     | yes  |
@@ -109,7 +115,7 @@ Explanation:
 ### PFD Layout
 
 Those files are used to customize the layout of the PFD.
-Place a new file in the folder `data/pfdlayout`.
+Place a new file in the folder [`data/configs/pfdlayout`](data/configs/pfdlayout).
 To use a layout for a certain aircraft, put the path of the layout file in the JSON file of the aircraft ([see Aircraft](#Aircraft)).
 
 The most values in this file are position or size values.
@@ -195,6 +201,14 @@ Explanation:
 | hsi: numberStep                       | The step size of the numbers of the scala                                                                       | yes      | `30`                                |
 
 A graphical explanation might follow soon.
+
+## Installation
+
+If you want to use this code you need [Processing 3](https://processing.org/). Just download this project and open it in Processing. Click the play button to start the application.
+
+## Credits
+
+[Aircraft icon](data/resources/aircraft.svg): Icon made from [Icon Fonts](http://www.onlinewebfonts.com/icon) is licensed by CC BY 3.0
 
 ## License
 

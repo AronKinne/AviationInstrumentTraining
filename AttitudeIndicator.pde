@@ -7,7 +7,6 @@ class AttitudeIndicator extends Indicator {
     color colSky, colGround, colReference;   // colors of sky, ground and reference marker
 
     float degInPx;   // 1 deg = <degInPx> px
-    boolean mouseActive = false;
 
     private float scale;   // necessary because other values are optimized for degInPx = 10
     
@@ -54,7 +53,7 @@ class AttitudeIndicator extends Indicator {
     }
 
     void processMouseInput() {
-        if(mouseActive) {
+        if(ac.pfd.mouseActive) {
             ac.pitchVel = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxPitchVel, ac.maxPitchVel) * cos(radians(ac.roll)), -ac.maxPitchVel, ac.maxPitchVel);
             ac.rollVel = constrain(map(mouseX, pivotX - w * .5, pivotX + w * .5, -ac.maxRollVel, ac.maxRollVel), -ac.maxRollVel, ac.maxRollVel);
             ac.turnSpeed = constrain(map(mouseY, pivotY - h * .5, pivotY + h * .5, -ac.maxTurnSpeed, ac.maxTurnSpeed) * sin(radians(ac.roll)), -ac.maxTurnSpeed, ac.maxTurnSpeed);
@@ -68,12 +67,6 @@ class AttitudeIndicator extends Indicator {
             float diff = ac.pitch - (90 * sign(ac.pitch));
             ac.pitch = (90 * sign(ac.pitch)) - diff;
             ac.roll += 180;
-        }
-    }
-
-    void mouseReleased() {
-        if((mouseX < x + w * .5 && mouseX > x - w * .5 && mouseY > y - h * .5 && mouseY < y + h * .5) || mouseActive) {
-            mouseActive = !mouseActive;
         }
     }
 

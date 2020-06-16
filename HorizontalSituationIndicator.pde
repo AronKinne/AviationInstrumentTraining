@@ -1,14 +1,21 @@
 class HorizontalSituationIndicator extends Indicator {
 
+    final String iconPath = "data/resources/aircraft.svg";
+    PShape icon;
+
     // x, y is center
     float d;   // d = w = h
     float smallLineW, bigLineW;
     float textSize, numberStep;
+    float iconSize;
 
     HeadingPointer hp;
 
     HorizontalSituationIndicator(Aircraft ac, float x, float y, float d, float bigLineWidth, float numberStep) {
         super(ac, x, y, d, d);
+
+        icon = loadShape(iconPath);
+        icon.setFill(color(255));
 
         this.d = d;
         bigLineW = bigLineWidth;
@@ -16,6 +23,7 @@ class HorizontalSituationIndicator extends Indicator {
 
         textSize = bigLineW * 2;
         this.numberStep = numberStep;
+        iconSize = textSize * 2;
 
         hp = new HeadingPointer(this, textSize * 1.2);
 
@@ -29,9 +37,14 @@ class HorizontalSituationIndicator extends Indicator {
         hp.draw();
 
         pushMatrix();
+
         translate(x, y);
         rotate(radians(-ac.hdg));
         image(background, -w * .5, -h * .5);
+        
+        rotate(radians(ac.hdg));
+        if(icon != null) shape(icon, -iconSize * .5, -iconSize * .5, iconSize, iconSize);
+
         popMatrix();
     }
 

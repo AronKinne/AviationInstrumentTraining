@@ -139,7 +139,15 @@ class Aircraft {
         }
     }
 
+    void changeIas(float amt) {
+        ias = constrain(ias + amt, vs0, vne);
+    }
+
     void mouseReleased() {
-        pfd.mouseReleased();    
+        if(pfd != null) pfd.mouseReleased();    
+    }
+
+    void mouseWheel(MouseEvent e) {
+        if(pfd != null && pfd.mouseActive) changeIas(-3 * e.getCount());
     }
 }

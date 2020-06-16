@@ -7,6 +7,8 @@ class FlightDisplay {
     float x, y, w, h;   // x and y is top left corner
     color bgColor;   // color if anywhere is no indicator
 
+    boolean mouseActive;
+
     FlightDisplay(Aircraft ac, float x, float y, float w, float h, color bgColor) {
         this.ac = ac;
         this.x = x;
@@ -19,12 +21,16 @@ class FlightDisplay {
     }
 
     void draw() {
-        stroke(255);
-        strokeWeight(1);
+        noStroke();
         fill(bgColor);
         rect(x, y, w, h);
 
         for(Indicator i : indicators) i.draw();
+        
+        stroke(0);
+        strokeWeight(1);
+        noFill();
+        rect(x, y, w, h);
     }
 
     void processMouseInput() {
@@ -43,7 +49,9 @@ class FlightDisplay {
     }
 
     void mouseReleased() {
-        if(adi != null) adi.mouseReleased();
+        if((mouseX < x + w * .5 && mouseX > x - w * .5 && mouseY > y - h * .5 && mouseY < y + h * .5) || mouseActive) {
+            mouseActive = !mouseActive;
+        }
     }
 
 }

@@ -55,10 +55,12 @@ class Environment {
         //println(pressedKeys);
 
         // speed
-        if(pressedKeys.contains(UP)) {
-            ac.ias = min(ac.ias + 1, ac.vne);
-        } else if(pressedKeys.contains(DOWN)) {
-            ac.ias = max(ac.ias - 1, ac.vs0);
+        if(ac.pfd != null && ac.pfd.mouseActive) {
+            if(pressedKeys.contains(UP)) {
+                ac.changeIas(1);
+            } else if(pressedKeys.contains(DOWN)) {
+                ac.changeIas(-1);
+            }
         }
     }
 
@@ -75,7 +77,7 @@ class Environment {
     }
 
     void mouseWheel(MouseEvent e) {
-        ac.ias = constrain(ac.ias - 3 * e.getCount(), ac.vs0, ac.vne);
+        ac.mouseWheel(e);
     }
 
 }

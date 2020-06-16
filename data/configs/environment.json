@@ -1,16 +1,14 @@
 {
     "aircraft": {
-        "path": "data/aircraft/c172.json",
+        "path": "data/configs/aircraft/c172.json",
         "pfd": {
-            "x": 50,
-            "y": 100,
-            "w_rem": 0,
-            "h_rem": 0
+            "x": 700,
+            "y": 100
         }
     },
     "map": {
         "bounds": {
-            "x": 950,
+            "x": 50,
             "y": 100,
             "w": 600,
             "h": 657

@@ -3,14 +3,10 @@
 
 Environment env;
 
-Map map;
-
 void setup() {
     size(1600, 900, P2D);
 
-    env = new Environment("data/environment.json");
-
-    map = new Map(10, 10, 70, 20);
+    env = new Environment("data/configs/environment.json");
 }
 
 void draw() {
@@ -36,6 +32,7 @@ void mouseWheel(MouseEvent e) {
     env.mouseWheel(e);;
 }
 
+// util
 float sign(float value) {
     if(value == 0) return 0;
     return round(value / abs(value));
