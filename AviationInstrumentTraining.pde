@@ -24,6 +24,10 @@ void keyPressed() {
     env.keyPressed();
 }
 
+void mousePressed() {
+    env.mousePressed();
+}
+
 void mouseReleased() {
     env.mouseReleased();    
 }
@@ -36,4 +40,8 @@ void mouseWheel(MouseEvent e) {
 float sign(float value) {
     if(value == 0) return 0;
     return round(value / abs(value));
+}
+
+float round(float value, int dig) {
+    return round(value * pow(10, -dig)) * pow(10, dig);
 }

@@ -48,8 +48,8 @@ class FlightDisplay {
         return true;
     }
 
-    void mouseReleased() {
-        if((mouseX < x + w * .5 && mouseX > x - w * .5 && mouseY > y - h * .5 && mouseY < y + h * .5) || mouseActive) {
+    void mousePressed() {
+        if((mouseX < x + w && mouseX > x && mouseY > y && mouseY < y + h) || mouseActive) {
             mouseActive = !mouseActive;
         }
     }

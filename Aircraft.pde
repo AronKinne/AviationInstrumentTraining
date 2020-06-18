@@ -1,7 +1,12 @@
-class Aircraft {
+class Aircraft extends Station {
 
     String layoutPath;   // Path of json file for pfd layout
     FlightDisplay pfd;   // Primary Flight Display
+
+    // Map things
+    PShape icon; 
+    final String iconPath = "data/resources/aircraft.svg";
+    final float iconSizeOnMap = 30;
     
     // Aircraft principal axes
     float pitch, pitchVel, maxPitchVel;
@@ -55,6 +60,9 @@ class Aircraft {
             exit();
         }
 
+        icon = loadShape(iconPath);
+        icon.setFill(color(0));
+
         alt = 1000;
         hdg = 360;
     }
@@ -63,10 +71,14 @@ class Aircraft {
         if(pfd != null) pfd.draw();
 
         vs = sin(radians(pitch)) * ias * 101.269;   // 1 kt = 101.269 ft/min
-        alt += vs / (frameRate * frameRate);
+        alt += vs / (frameRate * 60);
 
         hdg = (hdg + turnSpeed + 359) % 360 + 1;
+
+        pos.x += round(sin(radians(hdg)) * cos(radians(pitch)) * ias, -3) / (frameRate * 360) / map.nmInPx;
+        pos.y -= round(cos(radians(hdg)) * cos(radians(pitch)) * ias, -3) / (frameRate * 360) / map.nmInPx;
         
+        //println(hdg, pos.x, pos.y);
         //println(pitch, roll, yaw);
     }
 
@@ -143,11 +155,20 @@ class Aircraft {
         ias = constrain(ias + amt, vs0, vne);
     }
 
-    void mouseReleased() {
-        if(pfd != null) pfd.mouseReleased();    
+    void renderOnMap() {
+        if(icon != null ) {
+            pushMatrix();
+            rotate(radians(hdg));
+            shape(icon, -iconSizeOnMap * .5, -iconSizeOnMap * .5, iconSizeOnMap, iconSizeOnMap);
+            popMatrix();
+        }
+    }
+
+    void mousePressed() {
+        if(pfd != null) pfd.mousePressed();    
     }
 
     void mouseWheel(MouseEvent e) {
-        if(pfd != null && pfd.mouseActive) changeIas(-3 * e.getCount());
+        if(pfd != null && mouseX < pfd.x + pfd.w && mouseX > pfd.x && mouseY > pfd.y && mouseY < pfd.y + pfd.h) changeIas(-3 * e.getCount());
     }
 }

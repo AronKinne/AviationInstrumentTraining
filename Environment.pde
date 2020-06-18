@@ -29,7 +29,8 @@ class Environment {
             JSONObject jsonMap = jsonEnv.getJSONObject("map");
 
             JSONObject jsonMapBounds = jsonMap.getJSONObject("bounds");
-            map = new Map(jsonMapBounds.getFloat("x"), jsonMapBounds.getFloat("y"), jsonMapBounds.getFloat("w"), jsonMapBounds.getFloat("h"));
+            map = new Map(this, jsonMapBounds.getFloat("x"), jsonMapBounds.getFloat("y"), jsonMapBounds.getFloat("w"), jsonMapBounds.getFloat("h"));
+            ac.setMap(map);
 
         } catch (Exception e) {
             println("ERROR: Environment file from path: \"" + jsonPath + "\" loaded successfully, but it contains errors. See readme for correct syntax. App will terminate now!");
@@ -72,12 +73,18 @@ class Environment {
         if(!pressedKeys.contains(keyCode)) pressedKeys.add(keyCode);
     }
 
+    void mousePressed() {
+        map.mousePressed();
+        ac.mousePressed(); 
+    }
+
     void mouseReleased() {
-        ac.mouseReleased();    
+        map.mouseReleased();   
     }
 
     void mouseWheel(MouseEvent e) {
         ac.mouseWheel(e);
+        map.mouseWheel(e);
     }
 
 }

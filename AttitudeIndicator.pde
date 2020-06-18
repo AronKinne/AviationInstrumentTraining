@@ -67,6 +67,7 @@ class AttitudeIndicator extends Indicator {
             float diff = ac.pitch - (90 * sign(ac.pitch));
             ac.pitch = (90 * sign(ac.pitch)) - diff;
             ac.roll += 180;
+            ac.hdg += 180;
         }
     }
 
