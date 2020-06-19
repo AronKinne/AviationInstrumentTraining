@@ -63,10 +63,37 @@ class Environment {
                 ac.changeIas(-1);
             }
         }
+
+        // autopilot
+        if(pressedKeys.contains(129))   // numpad 1
+            ac.apIAS--;
+        if(pressedKeys.contains(135))   // numpad 7
+            ac.apIAS++;
+        if(pressedKeys.contains(130))   // numpad 2
+            ac.apALT--;
+        if(pressedKeys.contains(136))   // numpad 8
+            ac.apALT++;
+        if(pressedKeys.contains(131))   // numpad 3
+            ac.apVS--;
+        if(pressedKeys.contains(137))   // numpad 9
+            ac.apVS++;
+        if(pressedKeys.contains(132))   // numpad 4
+            ac.apHDG--;
+        if(pressedKeys.contains(134))   // numpad 6
+            ac.apHDG++;
     }
 
     void keyReleased() {
         if(pressedKeys.contains(keyCode)) pressedKeys.remove((Integer)keyCode);
+
+        // autopilot
+        if(keyCode == 133) {   // numpad 5
+            ac.autopilot = !ac.autopilot;
+            ac.apIAS = ac.ias;
+            ac.apALT = ac.alt;
+            ac.apVS = ac.vs;
+            ac.apHDG = ac.hdg;
+        }
     }
 
     void keyPressed() {

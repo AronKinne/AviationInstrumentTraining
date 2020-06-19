@@ -27,6 +27,10 @@ class Aircraft extends Station {
     float hdg;   // heading in degrees
     float turnSpeed, maxTurnSpeed;   // turn speed
 
+    // Autopilot
+    boolean autopilot;
+    float apIAS, apALT, apVS, apHDG;
+
     Aircraft(String jsonPath) {
         JSONObject jsonAC = null;
 
@@ -74,11 +78,13 @@ class Aircraft extends Station {
         alt += vs / (frameRate * 60);
 
         hdg = (hdg + turnSpeed + 359) % 360 + 1;
+        apHDG = (apHDG + 359) % 360 + 1;
 
         pos.x += round(sin(radians(hdg)) * cos(radians(pitch)) * ias, -3) / (frameRate * 360) / map.nmInPx;
         pos.y -= round(cos(radians(hdg)) * cos(radians(pitch)) * ias, -3) / (frameRate * 360) / map.nmInPx;
         
         //println(hdg, pos.x, pos.y);
+        if(autopilot) println(apIAS, apALT, apVS, apHDG);
         //println(pitch, roll, yaw);
     }
 
