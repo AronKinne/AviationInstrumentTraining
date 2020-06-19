@@ -91,16 +91,13 @@ class Altimeter extends Indicator {
         mask.endDraw();
     }
 
-    class AltimeterPointer extends Indicator {
+    class AltimeterPointer extends Pointer<Altimeter> {
 
-        Altimeter altm;
         float textSize;
-        PShape shape;
 
         AltimeterPointer(Altimeter altm, float y, float h) {
-            super(altm.ac, altm.x, y, altm.w, h);
+            super(altm, altm.x, y, altm.w, h);
 
-            this.altm = altm;
             this.textSize = altm.textSize * 1.4;
 
             bgH = h * 2;
@@ -136,9 +133,9 @@ class Altimeter extends Indicator {
             background.noStroke();
             background.textAlign(LEFT, CENTER);
             background.textSize(textSize);
-            background.text(nf(roundAlt, 2), wBigLine + textSize * .1 + (5 - len) * digW, bgH * .5 - textSize * .1);
-            background.text(nf(sucNum, 2), wBigLine + textSize * .1 + digW * 3, bgH * .5 - textSize * 1.1);
-            background.text(nf(preNum, 2), wBigLine + textSize * .1 + digW * 3, bgH * .5 + textSize * 0.9);
+            background.text(nf(roundAlt, 2), parent.wBigLine + textSize * .1 + (5 - len) * digW, bgH * .5 - textSize * .1);
+            background.text(nf(sucNum, 2), parent.wBigLine + textSize * .1 + digW * 3, bgH * .5 - textSize * 1.1);
+            background.text(nf(preNum, 2), parent.wBigLine + textSize * .1 + digW * 3, bgH * .5 + textSize * 0.9);
 
             background.endDraw();
         }
@@ -165,17 +162,17 @@ class Altimeter extends Indicator {
                 shape.noFill();
             }
 
-            shape.vertex(wSmallLine, h * .5);
-            shape.vertex(wBigLine, h * .5 - wSmallLine);
-            shape.vertex(wBigLine, h / 6);
-            shape.vertex(wBigLine + wLeftPart, h / 6);
-            shape.vertex(wBigLine + wLeftPart, 0);
+            shape.vertex(parent.wSmallLine, h * .5);
+            shape.vertex(parent.wBigLine, h * .5 - parent.wSmallLine);
+            shape.vertex(parent.wBigLine, h / 6);
+            shape.vertex(parent.wBigLine + wLeftPart, h / 6);
+            shape.vertex(parent.wBigLine + wLeftPart, 0);
             shape.vertex(w, 0);
             shape.vertex(w, h);
-            shape.vertex(wBigLine + wLeftPart, h);
-            shape.vertex(wBigLine + wLeftPart, h * 5/6);
-            shape.vertex(wBigLine, h * 5/6);
-            shape.vertex(wBigLine, h * .5 + wSmallLine);
+            shape.vertex(parent.wBigLine + wLeftPart, h);
+            shape.vertex(parent.wBigLine + wLeftPart, h * 5/6);
+            shape.vertex(parent.wBigLine, h * 5/6);
+            shape.vertex(parent.wBigLine, h * .5 + parent.wSmallLine);
 
             shape.endShape(CLOSE);
         }

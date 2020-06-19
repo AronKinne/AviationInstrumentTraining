@@ -93,14 +93,10 @@ class VerticalSpeedIndicator extends Indicator {
         shape.endShape(CLOSE);
     }
 
-    class VsPointer extends Indicator {
-
-        VerticalSpeedIndicator vsi;
+    class VsPointer extends Pointer<VerticalSpeedIndicator> {
 
         VsPointer(VerticalSpeedIndicator vsi, float w) {
-            super(vsi.ac, vsi.x, vsi.y, w, vsi.textSize * 1.2);
-
-            this.vsi = vsi;
+            super(vsi, vsi.x, vsi.y, w, vsi.textSize * 1.2);
 
             createBackground();
         }
@@ -108,7 +104,7 @@ class VerticalSpeedIndicator extends Indicator {
         void draw() {
             generateBackground();
 
-            y = constrain(vsi.y + vsi.h * .5 - ac.vs * vsi.fpmInPx, vsi.y, vsi.y + vsi.h) - h * .5;
+            y = constrain(parent.y + parent.h * .5 - ac.vs * parent.fpmInPx, parent.y, parent.y + parent.h) - h * .5;
 
             image(background, x, y);
         }
@@ -140,6 +136,8 @@ class VerticalSpeedIndicator extends Indicator {
         }
 
         void generateMask() {}
+
+        void generateShape(boolean forMask) {}
 
     }
 }

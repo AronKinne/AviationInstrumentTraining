@@ -112,17 +112,14 @@ class HorizontalSituationIndicator extends Indicator {
         mask.endDraw();
     }
 
-    class HeadingPointer extends Indicator {
+    class HeadingPointer extends Pointer<HorizontalSituationIndicator> {
 
-        HorizontalSituationIndicator hsi;
-        PShape shape;
         float textSize;
 
         HeadingPointer(HorizontalSituationIndicator hsi, float textSize) {
-            super(hsi.ac, hsi.x - textSize * 41/18 * 0.6, hsi.y - hsi.d * .5 - textSize - hsi.bigLineW, textSize * 41/18 * 1.2, textSize + hsi.bigLineW); 
-            //                    textSize * 41/18 = textWidth for "999°"
+            super(hsi, hsi.x - textSize * 41/18 * 0.6, hsi.y - hsi.d * .5 - textSize - hsi.bigLineW, textSize * 41/18 * 1.2, textSize + hsi.bigLineW); 
+            //                 textSize * 41/18 = textWidth for "999°"
 
-        	this.hsi = hsi;
             this.textSize = textSize;
 
             createBackground();
@@ -172,11 +169,11 @@ class HorizontalSituationIndicator extends Indicator {
 
             shape.vertex(0, 0);
             shape.vertex(w - 1, 0);
-            shape.vertex(w - 1, h - hsi.bigLineW);
-            shape.vertex(w * .5 + hsi.bigLineW * .5, h - hsi.bigLineW);
+            shape.vertex(w - 1, h - parent.bigLineW);
+            shape.vertex(w * .5 + parent.bigLineW * .5, h - parent.bigLineW);
             shape.vertex(w * .5, h - 1);
-            shape.vertex(w * .5 - hsi.bigLineW * .5, h - hsi.bigLineW);
-            shape.vertex(0, h - hsi.bigLineW);
+            shape.vertex(w * .5 - parent.bigLineW * .5, h - parent.bigLineW);
+            shape.vertex(0, h - parent.bigLineW);
 
             shape.endShape(CLOSE);
         }

@@ -114,17 +114,14 @@ class AirspeedIndicator extends Indicator {
         mask.endDraw();
     }
 
-    private class AirspeedPointer extends Indicator {
+    private class AirspeedPointer extends Pointer<AirspeedIndicator> {
 
-        AirspeedIndicator asi;
         float textSize;
-        PShape shape;
 
-        AirspeedPointer(AirspeedIndicator asi, float y, float h) {
-            super(asi.ac, asi.x, y, asi.w, h);
+        AirspeedPointer(AirspeedIndicator parent, float y, float h) {
+            super(parent, parent.x, y, parent.w, h);
 
-            this.asi = asi;
-            this.textSize = asi.textSize * 1.3;
+            this.textSize = parent.textSize * 1.3;
 
             bgH = h * 2;
 
@@ -151,9 +148,9 @@ class AirspeedIndicator extends Indicator {
             background.fill(255);
             background.textSize(textSize);
             background.textAlign(RIGHT, CENTER);
-            background.text((int)ac.ias, bgW - arcW - textSize * .2, bgH * .5 - textSize * .1);
-            background.text(sucDig, bgW - arcW - textSize * .2, bgH * .5 - textSize * 1.1);
-            background.text(preDig, bgW - arcW - textSize * .2, bgH * .5 + textSize * 0.9);
+            background.text((int)ac.ias, bgW - parent.arcW - textSize * .2, bgH * .5 - textSize * .1);
+            background.text(sucDig, bgW - parent.arcW - textSize * .2, bgH * .5 - textSize * 1.1);
+            background.text(preDig, bgW - parent.arcW - textSize * .2, bgH * .5 + textSize * 0.9);
 
             background.endDraw();
         }
@@ -179,15 +176,15 @@ class AirspeedIndicator extends Indicator {
             }
 
             shape.vertex(0, h / 6);
-            shape.vertex(w - textSize - arcW, h / 6);
-            shape.vertex(w - textSize - arcW, 0);
-            shape.vertex(w - arcW, 0);
-            shape.vertex(w - arcW, h * .5 - arcW);
+            shape.vertex(w - textSize - parent.arcW, h / 6);
+            shape.vertex(w - textSize - parent.arcW, 0);
+            shape.vertex(w - parent.arcW, 0);
+            shape.vertex(w - parent.arcW, h * .5 - parent.arcW);
             shape.vertex(w, h * .5);
-            shape.vertex(w - arcW, h * .5 + arcW);
-            shape.vertex(w - arcW, h);
-            shape.vertex(w - textSize - arcW, h);
-            shape.vertex(w - textSize - arcW, h * 5/6);
+            shape.vertex(w - parent.arcW, h * .5 + parent.arcW);
+            shape.vertex(w - parent.arcW, h);
+            shape.vertex(w - textSize - parent.arcW, h);
+            shape.vertex(w - textSize - parent.arcW, h * 5/6);
             shape.vertex(0, h * 5/6);
 
             shape.endShape(CLOSE);
