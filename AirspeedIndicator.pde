@@ -9,7 +9,9 @@ class AirspeedIndicator extends Indicator {
     float textSize, arcW, numberStep;
 
     float center;   // center is y value of center of pointer
+
     AirspeedPointer asp;
+    AutopilotPointer apPointer;
 
     AirspeedIndicator(Aircraft ac, float x, float y, float w, float h, float center, float numberStep, float ktInPx) {
         super(ac, x, y, w, h);
@@ -24,6 +26,9 @@ class AirspeedIndicator extends Indicator {
         asp = new AirspeedPointer(this, y - textSize * 1.25 + center, textSize * 2.5);
         
         bgH = (ac.vne - ac.vs0 + ktAbvVne) * ktInPx + h * 2;
+
+        apPointer = new AutopilotPointer(this, arcW + 1, arcW * 3, arcW + 1, arcW + 2, PI);
+        apPointer.x = x + w;
 
         createMask();
         generateBackground();
@@ -40,8 +45,15 @@ class AirspeedIndicator extends Indicator {
         strokeWeight(1);
         noFill();
         rect(x, y, w, h);
-        
-        asp.draw();
+
+        if(ac.autopilot) {
+            float appY = asp.y + asp.h * .5 + apPointer.h * .5 - 1 - (ac.apIAS - ac.ias) * ktInPx;
+            apPointer.visible = appY - apPointer.h > y && appY < y + h;
+            apPointer.y = appY;
+            apPointer.draw();
+        }   
+
+        asp.draw();    
     }
 
     void generateBackground() {

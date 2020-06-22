@@ -2,12 +2,11 @@ class Altimeter extends Indicator {
 
     float ftInPx;   // 1 ft = <ftInPx> px
 
-    float nextThousand;
-
-    float textSize, wSmallLine, wBigLine;
-
+    float textSize, wSmallLine, wBigLine, nextThousand;
     float center;   // center is y value of center of pointer
+
     AltimeterPointer altmp;
+    AutopilotPointer apPointer;
 
     Altimeter(Aircraft ac, float x, float y, float w, float h, float center, float ftInPx) {
         super(ac, x, y, w, h);
@@ -21,6 +20,9 @@ class Altimeter extends Indicator {
 
         this.center = center;
         altmp = new AltimeterPointer(this, y + center - textSize * 2.8, textSize * 2.8);
+
+        apPointer = new AutopilotPointer(this, wBigLine, wSmallLine * 4, wBigLine - wSmallLine, wSmallLine * 2, 0);
+        apPointer.x++;
 
         createBackground();
         createMask();
@@ -41,6 +43,13 @@ class Altimeter extends Indicator {
         stroke(255);
         strokeWeight(1);
         rect(x, y, w, h);
+
+        if(ac.autopilot) {
+            float appY = y + center - apPointer.h * .5 - (ac.apALT - ac.alt) * ftInPx;
+            apPointer.visible = appY > y && appY + apPointer.h < y + h;
+            apPointer.y = appY;
+            apPointer.draw();
+        }
 
         altmp.draw();
     }

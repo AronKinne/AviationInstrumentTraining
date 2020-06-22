@@ -84,7 +84,7 @@ class Aircraft extends Station {
         pos.y -= round(cos(radians(hdg)) * cos(radians(pitch)) * ias, -3) / (frameRate * 360) / map.nmInPx;
         
         //println(hdg, pos.x, pos.y);
-        if(autopilot) println(apIAS, apALT, apVS, apHDG);
+        if(autopilot) println("AP - ias: " + (int)apIAS + " | alt: " + (int)apALT + " | vs: " + (int)apVS + " | hdg: " + (int)apHDG);
         //println(pitch, roll, yaw);
     }
 
@@ -157,8 +157,8 @@ class Aircraft extends Station {
         }
     }
 
-    void changeIas(float amt) {
-        ias = constrain(ias + amt, vs0, vne);
+    float constrainSpeed(float speed, float change) {
+        return constrain(speed + change, vs0, vne);
     }
 
     void renderOnMap() {
@@ -175,6 +175,6 @@ class Aircraft extends Station {
     }
 
     void mouseWheel(MouseEvent e) {
-        if(pfd != null && mouseX < pfd.x + pfd.w && mouseX > pfd.x && mouseY > pfd.y && mouseY < pfd.y + pfd.h) changeIas(-3 * e.getCount());
+        if(pfd != null && mouseX < pfd.x + pfd.w && mouseX > pfd.x && mouseY > pfd.y && mouseY < pfd.y + pfd.h) ias = constrainSpeed(ias, -3 * e.getCount());
     }
 }

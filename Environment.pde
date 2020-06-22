@@ -3,6 +3,11 @@ class Environment {
     Aircraft ac;
     Map map;
 
+    final float apIasChange = 1;
+    final float apAltChange = 10;
+    final float apVsChange = 50;
+    final float apHdgChange = 1;
+
     ArrayList<Integer> pressedKeys;
 
     Environment(String jsonPath) {
@@ -58,29 +63,29 @@ class Environment {
         // speed
         if(ac.pfd != null && ac.pfd.mouseActive) {
             if(pressedKeys.contains(UP)) {
-                ac.changeIas(1);
+                ac.ias = ac.constrainSpeed(ac.ias, 1);
             } else if(pressedKeys.contains(DOWN)) {
-                ac.changeIas(-1);
+                ac.ias = ac.constrainSpeed(ac.ias, -1);
             }
         }
 
         // autopilot
         if(pressedKeys.contains(129))   // numpad 1
-            ac.apIAS--;
+            ac.apIAS = ac.constrainSpeed(ac.apIAS, -apIasChange);
         if(pressedKeys.contains(135))   // numpad 7
-            ac.apIAS++;
+            ac.apIAS = ac.constrainSpeed(ac.apIAS, apIasChange);
         if(pressedKeys.contains(130))   // numpad 2
-            ac.apALT--;
+            ac.apALT -= apAltChange;
         if(pressedKeys.contains(136))   // numpad 8
-            ac.apALT++;
+            ac.apALT += apAltChange;
         if(pressedKeys.contains(131))   // numpad 3
-            ac.apVS--;
+            ac.apVS -= apVsChange;
         if(pressedKeys.contains(137))   // numpad 9
-            ac.apVS++;
+            ac.apVS += apVsChange;
         if(pressedKeys.contains(132))   // numpad 4
-            ac.apHDG--;
+            ac.apHDG -= apHdgChange;
         if(pressedKeys.contains(134))   // numpad 6
-            ac.apHDG++;
+            ac.apHDG += apHdgChange;
     }
 
     void keyReleased() {

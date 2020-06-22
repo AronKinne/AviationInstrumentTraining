@@ -5,7 +5,8 @@ class VerticalSpeedIndicator extends Indicator {
 
     PShape shape;
 
-    VsPointer vsPointer;
+    VsPointer vsp;
+    AutopilotPointer apPointer;
 
     VerticalSpeedIndicator(Aircraft ac, float x, float y, float w, float h, float pointerWidth, float fpmInPx) {
         super(ac, x, y, w, h);
@@ -14,7 +15,9 @@ class VerticalSpeedIndicator extends Indicator {
 
         textSize = w * 2/3;
 
-        vsPointer = new VsPointer(this, pointerWidth);
+        vsp = new VsPointer(this, pointerWidth);
+        apPointer = new AutopilotPointer(this, vsp.h * .3, vsp.h * .7, vsp.h * .3, vsp.h * .3, 0);
+        apPointer.x++;
 
         generateShape(true);
         generateBackground();
@@ -27,7 +30,12 @@ class VerticalSpeedIndicator extends Indicator {
         image(background, x, y);
         shape(shape, x, y);
 
-        vsPointer.draw();
+        if(ac.autopilot) {
+            apPointer.y = y + constrain(h * .5 - apPointer.h * .5 - ac.apVS * fpmInPx, 1, h - apPointer.h - 1);
+            apPointer.draw();
+        }
+
+        vsp.draw();
     }
 
     void generateBackground() {

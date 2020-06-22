@@ -10,6 +10,7 @@ class HorizontalSituationIndicator extends Indicator {
     float iconSize;
 
     HeadingPointer hp;
+    AutopilotPointer apPointer;
 
     HorizontalSituationIndicator(Aircraft ac, float x, float y, float d, float bigLineWidth, float numberStep) {
         super(ac, x, y, d, d);
@@ -26,6 +27,7 @@ class HorizontalSituationIndicator extends Indicator {
         iconSize = textSize * 2;
 
         hp = new HeadingPointer(this, textSize * 1.2);
+        apPointer = new AutopilotPointer(this, bigLineW, bigLineW * 2, smallLineW, bigLineW * .5, PI * 3/2);
 
         generateBackground();
         createMask();
@@ -34,7 +36,6 @@ class HorizontalSituationIndicator extends Indicator {
     void draw() {
         generateMask();
         background.mask(mask);
-        hp.draw();
 
         pushMatrix();
 
@@ -46,6 +47,17 @@ class HorizontalSituationIndicator extends Indicator {
         if(icon != null) shape(icon, -iconSize * .5, -iconSize * .5, iconSize, iconSize);
 
         popMatrix();
+
+        if(ac.autopilot) {
+            float a = radians((ac.apHDG - ac.hdg + 630) % 360);
+            float b = a - atan(apPointer.h / d);
+            apPointer.x = x + cos(b) * (d * .5 - apPointer.w * 0.75);
+            apPointer.y = y + sin(b) * (d * .5 - apPointer.w * 0.75);
+            apPointer.angle = a;
+            apPointer.draw();
+        }
+        
+        hp.draw();
     }
 
     void generateBackground() {
@@ -117,7 +129,7 @@ class HorizontalSituationIndicator extends Indicator {
         float textSize;
 
         HeadingPointer(HorizontalSituationIndicator hsi, float textSize) {
-            super(hsi, hsi.x - textSize * 41/18 * 0.6, hsi.y - hsi.d * .5 - textSize - hsi.bigLineW, textSize * 41/18 * 1.2, textSize + hsi.bigLineW); 
+            super(hsi, hsi.x - textSize * 41/18 * 0.6, hsi.y - hsi.d * .5 - textSize - hsi.smallLineW * .5, textSize * 41/18 * 1.2, textSize + hsi.bigLineW); 
             //                 textSize * 41/18 = textWidth for "999°"
 
             this.textSize = textSize;
