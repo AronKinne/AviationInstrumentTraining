@@ -206,6 +206,10 @@ A graphical explanation might follow soon.
 
 If you want to use this code you need [Processing 3](https://processing.org/). Just download this project and open it in Processing. Click the play button to start the application.
 
+## Class diagram for the poor
+
+![Pseudo class diagram](data/resources/pseudoClassDiagram.png)
+
 ## Credits
 
 [Aircraft icon](data/resources/aircraft.svg): Icon made from [Icon Fonts](http://www.onlinewebfonts.com/icon) is licensed by CC BY 3.0
